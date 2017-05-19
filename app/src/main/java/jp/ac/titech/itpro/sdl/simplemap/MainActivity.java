@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(500);
+        //locationRequest.setInterval(0);
+        //locationRequest.setFastestInterval(0);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         Button btClick = (Button) findViewById(R.id.btClick);
@@ -159,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-        state = UpdatingState.STARTED;
+        Log.d(TAG, "stopLocationUpdate");
+        state = UpdatingState.STOPPED;
     }
 
     private void stopLocationUpdate() {
@@ -174,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements
     private class HelloListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            startLocationUpdate(true);
+            state = UpdatingState.REQUESTING;
+
+
         }
     }
 }
