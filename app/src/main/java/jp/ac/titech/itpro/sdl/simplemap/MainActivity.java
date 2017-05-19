@@ -10,6 +10,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -64,9 +68,14 @@ public class MainActivity extends AppCompatActivity implements
                 .build();
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
+        locationRequest.setInterval(1000);
+        locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        Button btClick = (Button) findViewById(R.id.btClick);
+        HelloListener listener = new HelloListener();
+        btClick.setOnClickListener(listener);
+
     }
 
     @Override
@@ -157,5 +166,14 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "stopLocationUpdate");
         LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
         state = UpdatingState.STOPPED;
+    }
+
+    /**
+     * ボタンをクリックしたときのリスナクラス。
+     */
+    private class HelloListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+        }
     }
 }
