@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SimpleMap</string>
     <string name="toast_requires_permission">This application requires permission %s</string>
-    <string name="bt_click">表示</string>
+    <string name="bt_click">位置情報更新</string>
 </resources>

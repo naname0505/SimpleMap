@@ -1,6 +1,7 @@
 package jp.ac.titech.itpro.sdl.simplemap;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -15,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+import android.net.Uri;
+import android.app.Activity;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,8 +33,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private final static String TAG = "MainActivity";
 
@@ -47,11 +54,14 @@ public class MainActivity extends AppCompatActivity implements
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private final static int REQCODE_PERMISSIONS = 1111;
+    double Lat;
+    double Long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -73,9 +83,8 @@ public class MainActivity extends AppCompatActivity implements
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         Button btClick = (Button) findViewById(R.id.btClick);
-        HelloListener listener = new HelloListener();
+        RefreshListener listener = new RefreshListener();
         btClick.setOnClickListener(listener);
-
     }
 
     @Override
@@ -89,10 +98,11 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
-        if (state != UpdatingState.STARTED && googleApiClient.isConnected())
-            startLocationUpdate(true);
-        else
+        if (state != UpdatingState.STARTED && googleApiClient.isConnected()) {
+            //startLocationUpdate(true);
+        }else {
             state = UpdatingState.REQUESTING;
+        }
     }
 
     @Override
@@ -132,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "onLocationChanged: " + location);
         googleMap.animateCamera(CameraUpdateFactory
                 .newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+        Lat  = location.getLatitude();
+        Long = location.getLongitude();
     }
 
     @Override
@@ -169,16 +181,30 @@ public class MainActivity extends AppCompatActivity implements
         state = UpdatingState.STOPPED;
     }
 
-    /**
-     * ボタンをクリックしたときのリスナクラス。
-     */
-    private class HelloListener implements View.OnClickListener {
+    /******************************************
+     * ボタンをクリックしたときのリスナクラス
+     ******************************************/
+    private class RefreshListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             startLocationUpdate(true);
             state = UpdatingState.REQUESTING;
-
+            test1();
 
         }
     }
+
+    // 地名を入れて経路を検索
+    private void test1(){
+        String prefixURL = "https://tabelog.com/map/?sw=";
+        String start = "凌駕";
+
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.setClassName("com.google.android.googlequicksearchbox",
+                "com.google.android.googlequicksearchbox.SearchActivity");
+        intent.putExtra(SearchManager.QUERY, prefixURL + start + "&sk=" + Lat +" "+ Long);
+        startActivity(intent);
+
+    }
+
 }
