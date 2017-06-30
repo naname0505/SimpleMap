@@ -38,6 +38,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+
 
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
@@ -49,7 +53,6 @@ public class MainActivity extends Activity implements
     private boolean requestingLocationUpdate;
     private LatLng location;
     private enum UpdatingState {STOPPED, REQUESTING, STARTED}
-
     private UpdatingState state = UpdatingState.STOPPED;
 
     private final static String[] PERMISSIONS = {
@@ -64,6 +67,8 @@ public class MainActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(android.support.v4.view.GravityCompat.START);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -71,13 +76,6 @@ public class MainActivity extends Activity implements
             public void onMapReady(GoogleMap map) {
                 map.moveCamera(CameraUpdateFactory.zoomTo(15f));
                 googleMap = map;
-                // 皇居辺りの緯度経度
-                location = new LatLng(35.68, 139.76);
-                // marker 追加
-                //googleMap.addMarker(new MarkerOptions().position(location).title("Tokyo"));
-                // camera 移動
-                googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
-
                 // タップした時のリスナーをセット
                 googleMap.setOnMapClickListener(new OnMapClickListener() {
                     @Override
@@ -92,9 +90,9 @@ public class MainActivity extends Activity implements
                 // 長押しのリスナーをセット
                 googleMap.setOnMapLongClickListener(new OnMapLongClickListener() {
                     @Override
-                    public void onMapLongClick(LatLng longpushLocation) {
-                      LatLng newlocation = new LatLng(longpushLocation.latitude, longpushLocation.longitude);
-                      googleMap.addMarker(new MarkerOptions().position(newlocation).title(""+longpushLocation.latitude+" :"+ longpushLocation.longitude));
+                    public void onMapLongClick(LatLng long_pushLocation) {
+                      LatLng new_location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);
+                      googleMap.addMarker(new MarkerOptions().position(new_location).title(""+long_pushLocation.latitude+" :"+ long_pushLocation.longitude));
                       googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
                     }
                 });
@@ -117,10 +115,6 @@ public class MainActivity extends Activity implements
         Button btClick = (Button) findViewById(R.id.btClick);
         RefreshListener listener = new RefreshListener();
         btClick.setOnClickListener(listener);
-
-        setContentView(R.layout.activity_main);
-        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.openDrawer(android.support.v4.view.GravityCompat.START);
 
     }
 
