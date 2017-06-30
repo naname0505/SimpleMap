@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.content.Intent;
 import android.net.Uri;
 import android.app.Activity;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -35,16 +36,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 
 public class MainActivity extends Activity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
     private final static String TAG = "MainActivity";
 
     private GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private boolean requestingLocationUpdate;
-
+    private LatLng location;
     private enum UpdatingState {STOPPED, REQUESTING, STARTED}
 
     private UpdatingState state = UpdatingState.STOPPED;
@@ -68,7 +71,36 @@ public class MainActivity extends Activity implements
             public void onMapReady(GoogleMap map) {
                 map.moveCamera(CameraUpdateFactory.zoomTo(15f));
                 googleMap = map;
+                // 皇居辺りの緯度経度
+                location = new LatLng(35.68, 139.76);
+                // marker 追加
+                //googleMap.addMarker(new MarkerOptions().position(location).title("Tokyo"));
+                // camera 移動
+                googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+
+                // タップした時のリスナーをセット
+                googleMap.setOnMapClickListener(new OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng tapLocation) {
+                      // tapされた位置の緯度経度
+                      location = new LatLng(tapLocation.latitude, tapLocation.longitude);
+                      googleMap.addMarker(new MarkerOptions().position(location).title(""+tapLocation.latitude+" :"+ tapLocation.longitude));
+                      googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+                      }
+                    });
+
+                // 長押しのリスナーをセット
+                googleMap.setOnMapLongClickListener(new OnMapLongClickListener() {
+                    @Override
+                    public void onMapLongClick(LatLng longpushLocation) {
+                      LatLng newlocation = new LatLng(longpushLocation.latitude, longpushLocation.longitude);
+                      googleMap.addMarker(new MarkerOptions().position(newlocation).title(""+longpushLocation.latitude+" :"+ longpushLocation.longitude));
+                      googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+                    }
+                });
+
             }
+
         });
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -85,6 +117,11 @@ public class MainActivity extends Activity implements
         Button btClick = (Button) findViewById(R.id.btClick);
         RefreshListener listener = new RefreshListener();
         btClick.setOnClickListener(listener);
+
+        setContentView(R.layout.activity_main);
+        android.support.v4.widget.DrawerLayout drawer = (android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(android.support.v4.view.GravityCompat.START);
+
     }
 
     @Override
@@ -189,12 +226,12 @@ public class MainActivity extends Activity implements
         public void onClick(View view) {
             startLocationUpdate(true);
             state = UpdatingState.REQUESTING;
-            test1();
+            //test1();
 
         }
     }
 
-    // 地名を入れて経路を検索
+     // 地名を入れて経路を検索
     private void test1(){
         String prefixURL = "https://tabelog.com/map/?sw=";
         String start = "凌駕";
@@ -206,5 +243,9 @@ public class MainActivity extends Activity implements
         startActivity(intent);
 
     }
+
+
+
+
 
 }
