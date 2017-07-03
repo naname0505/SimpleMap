@@ -40,8 +40,8 @@
         android:id="@+id/btClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/bt_click"/>
-
-
+        android:text="@string/bt_click"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
