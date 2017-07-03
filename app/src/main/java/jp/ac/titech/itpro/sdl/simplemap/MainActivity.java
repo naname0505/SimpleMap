@@ -22,6 +22,9 @@ import android.app.Activity;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import android.location.Location;
 
+import android.view.Menu;
+import android.view.MenuItem;
+
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -72,8 +75,11 @@ public class MainActivity extends Activity implements
     private Marker gMarker = null;
     private ArrayList<String> Llatilong;
     int n = 1;
+    int i = 1;
     String LatiLongDis [] = new String [30]; //0:1lat, 1;1long, 2;1dis, 3:2lat...
     float max_dis = 10000;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +96,7 @@ public class MainActivity extends Activity implements
         final TextView email_tv = (TextView)header.findViewById(R.id.email);
         final TextView name_tv = (TextView)header.findViewById(R.id.name);
         name_tv.setText("現在地からの最短距離");
-        email_tv.setText(String.valueOf(max_dis));
+        email_tv.setText(String.valueOf("no set"));
 
         final android.view.Menu menuNav = navigationView.getMenu();
         final android.view.MenuItem share_1 = menuNav.findItem(R.id.nav_1);
@@ -103,9 +109,6 @@ public class MainActivity extends Activity implements
         final android.view.MenuItem share_8 = menuNav.findItem(R.id.nav_8);
         final android.view.MenuItem share_9 = menuNav.findItem(R.id.nav_9);
         final android.view.MenuItem share_10 = menuNav.findItem(R.id.nav_10);
-
-
-
 
 
 
@@ -149,9 +152,6 @@ public class MainActivity extends Activity implements
                         Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
                         int result = java.lang.Float.compare(results[0]/1000,max_dis);
                         if(result == -1) {
-                            if(String.valueOf(max_dis) == String.valueOf(10000.0)){
-                                email_tv.setText(String.valueOf("no set"));
-                            }
                             max_dis = results[0]/1000;
                             email_tv.setText(String.valueOf(String.format("%.4f", max_dis))+"Km");
                         }
@@ -209,8 +209,6 @@ public class MainActivity extends Activity implements
                                 share_10.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
                                 BitmapDescriptor icon_10 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
                                 options.icon(icon_10);
-                                break;
-                            case 11:
                                 Toast.makeText(getApplicationContext(), "欲張りすぎ...", Toast.LENGTH_LONG).show();
                                 n = 0;
                                 break;
