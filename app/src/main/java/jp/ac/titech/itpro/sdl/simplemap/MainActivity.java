@@ -1,5 +1,9 @@
 package jp.ac.titech.itpro.sdl.simplemap;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.HttpURLConnection;
+
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.pm.PackageManager;
@@ -24,6 +28,10 @@ import android.location.Location;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -51,6 +59,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import com.google.android.gms.maps.SupportMapFragment;
+
+import org.xmlpull.v1.XmlPullParser;
+import android.util.Xml;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements
@@ -99,15 +120,15 @@ public class MainActivity extends Activity implements
         email_tv.setText(String.valueOf("no set"));
 
         final android.view.Menu menuNav = navigationView.getMenu();
-        final android.view.MenuItem share_1 = menuNav.findItem(R.id.nav_1);
-        final android.view.MenuItem share_2 = menuNav.findItem(R.id.nav_2);
-        final android.view.MenuItem share_3 = menuNav.findItem(R.id.nav_3);
-        final android.view.MenuItem share_4 = menuNav.findItem(R.id.nav_4);
-        final android.view.MenuItem share_5 = menuNav.findItem(R.id.nav_5);
-        final android.view.MenuItem share_6 = menuNav.findItem(R.id.nav_6);
-        final android.view.MenuItem share_7 = menuNav.findItem(R.id.nav_7);
-        final android.view.MenuItem share_8 = menuNav.findItem(R.id.nav_8);
-        final android.view.MenuItem share_9 = menuNav.findItem(R.id.nav_9);
+        final android.view.MenuItem share_1  = menuNav.findItem(R.id.nav_1);
+        final android.view.MenuItem share_2  = menuNav.findItem(R.id.nav_2);
+        final android.view.MenuItem share_3  = menuNav.findItem(R.id.nav_3);
+        final android.view.MenuItem share_4  = menuNav.findItem(R.id.nav_4);
+        final android.view.MenuItem share_5  = menuNav.findItem(R.id.nav_5);
+        final android.view.MenuItem share_6  = menuNav.findItem(R.id.nav_6);
+        final android.view.MenuItem share_7  = menuNav.findItem(R.id.nav_7);
+        final android.view.MenuItem share_8  = menuNav.findItem(R.id.nav_8);
+        final android.view.MenuItem share_9  = menuNav.findItem(R.id.nav_9);
         final android.view.MenuItem share_10 = menuNav.findItem(R.id.nav_10);
 
 
@@ -232,8 +253,6 @@ public class MainActivity extends Activity implements
                 .build();
 
         locationRequest = new LocationRequest();
-        //locationRequest.setInterval(0);
-        //locationRequest.setFastestInterval(0);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         Button btClick = (Button) findViewById(R.id.btClick);
@@ -342,9 +361,9 @@ public class MainActivity extends Activity implements
     private class RefreshListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            startLocationUpdate(true);
-            state = UpdatingState.REQUESTING;
-            //test1();
+            //startLocationUpdate(true);
+            //state = UpdatingState.REQUESTING;
+            tabelog();
 
         }
     }
@@ -362,8 +381,118 @@ public class MainActivity extends Activity implements
 
     }
 
+    /*******************************************************************************
+     * ぐるなびWebサービスのレストラン検索APIで緯度経度検索を実行しパースするプログラム
+     * 注意：緯度、経度、範囲は固定で入れています。
+     *　　　　アクセスキーはアカウント登録時に発行されたキーを指定してください。
+     *      JsonをパースするためにライブラリにJacksonを追加しています。
+     ******************************************************************************/
+
+        public static void tabelog() {
+            // アクセスキー
+            String acckey = "412ef37422f2ca18584801e4d25ce0a3";
+            // 緯度
+            String lat = "35.670082";
+            // 経度
+            String lon = "139.763267";
+            // 範囲
+            String range = "1";
+            // 返却形式
+            String format = "xml";
+            // エンドポイント
+            String gnaviRestUri = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
+            String prmFormat = "?format=" + format;
+            String prmKeyid = "&keyid=" + acckey;
+            String prmLat = "&latitude=" + lat;
+            String prmLon = "&longitude=" + lon;
+            String prmRange = "&range=" + range;
+
+            // URI組み立て
+            StringBuffer uri = new StringBuffer();
+            uri.append(gnaviRestUri);
+            uri.append(prmFormat);
+            uri.append(prmKeyid);
+            uri.append(prmLat);
+            uri.append(prmLon);
+            uri.append(prmRange);
+
+            // API実行、結果を取得し出力
+
+            getNodeList(uri.toString());
+        }
+
+        public static void getNodeList(String url){
+            try {
+                XmlPullParser xmlPullParser = Xml.newPullParser();
+                URL restSearch = new URL(url);
+                java.net.URLConnection connection = restSearch.openConnection();
+                System.out.println("connection");
+                //http.setRequestMethod("GET");
+                xmlPullParser.setInput(connection.getInputStream(), "UTF-8");
+                //http.connect();
+
+                System.out.println("success");
+                //Jackson
+                //JSONObject json = new JSONObject(http.getInputStream().toString()).getJSONObject("attribu");
+                // JSONArray  json = new JSONObject(http.getInputStream().toString()).getJSONArray("@attributes");
+
+                String a[] = new String[10];
+                int counter = 0;
+                System.out.println("success111111111111");
+                for(int e = xmlPullParser.getEventType(); e != XmlPullParser.END_DOCUMENT; e = xmlPullParser.next()){
+                    if(e == XmlPullParser.START_TAG && xmlPullParser.getName().equals("name")){
+                        a[counter] = xmlPullParser.nextText();
+                        System.out.println(a[counter]);
+                        System.out.println(counter);
+                        counter++;
+                    }
+                }
+
+                //String data1 = json.getString("attributes");
+
+                System.out.println("success22222222222222222");
+                //System.out.println(data1);
+
+            } catch (Exception e){
+                Log.d("XmlPullParserSampleUrl", "Error");
+            }
+        }
+
+
+
+//
+//        private static void viewJsonNode(JsonNode nodeList) {
+//            if (nodeList != null) {
+//                //トータルヒット件数
+//                String hitcount = "total:" + nodeList.path("total_hit_count").asText();
+//                System.out.println(hitcount);
+//                //restのみ取得
+//                JsonNode restList = nodeList.path("rest");
+//                Iterator<JsonNode> rest = restList.iterator();
+//                //店舗番号、店舗名、最寄の路線、最寄の駅、最寄駅から店までの時間、店舗の小業態を出力
+//                while (rest.hasNext()) {
+//                    JsonNode r = rest.next();
+//                    String id = r.path("id").asText();
+//                    String name = r.path("name").asText();
+//                    String line = r.path("access").path("line").asText();
+//                    String station = r.path("access").path("station").asText();
+//                    String walk = r.path("access").path("walk").asText() + "分";
+//                    String categorys = "";
+//
+//                    for (JsonNode n : r.path("code").path("category_name_s")) {
+//                        categorys += n.asText();
+//                    }
+//                    System.out.println(id + "¥t" + name + "¥t" + line + "¥t" + station + "¥t" + walk + "¥t" + categorys);
+//                }
+//            }
+//        }
 
 
 
 
-}
+
+    }
+
+
+
+
