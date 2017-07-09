@@ -1,9 +1,12 @@
 package jp.ac.titech.itpro.sdl.simplemap;
 
 import java.io.IOException;
+import java.net.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URL;
 import java.net.HttpURLConnection;
-
+import java.util.Iterator;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.pm.PackageManager;
@@ -67,10 +70,37 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.os.AsyncTask;
+import android.util.Log;
 
-import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 import java.util.ArrayList;
 
@@ -97,8 +127,10 @@ public class MainActivity extends Activity implements
     private ArrayList<String> Llatilong;
     int n = 1;
     int i = 1;
-    String LatiLongDis [] = new String [30]; //0:1lat, 1;1long, 2;1dis, 3:2lat...
+    String Dist[] = new String [3];
+    String LatiLongDis [] = new String [40]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
     float max_dis = 10000;
+    static String gURL;
 
 
 
@@ -106,18 +138,17 @@ public class MainActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.openDrawer(android.support.v4.view.GravityCompat.START);
-
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
 
-
         android.support.design.widget.NavigationView navigationView = (android.support.design.widget.NavigationView) findViewById(R.id.nav_view);
+
         View header=navigationView.getHeaderView(0);
         final TextView email_tv = (TextView)header.findViewById(R.id.email);
         final TextView name_tv = (TextView)header.findViewById(R.id.name);
-        name_tv.setText("現在地からの最短距離");
-        email_tv.setText(String.valueOf("no set"));
 
         final android.view.Menu menuNav = navigationView.getMenu();
         final android.view.MenuItem share_1  = menuNav.findItem(R.id.nav_1);
@@ -130,7 +161,6 @@ public class MainActivity extends Activity implements
         final android.view.MenuItem share_8  = menuNav.findItem(R.id.nav_8);
         final android.view.MenuItem share_9  = menuNav.findItem(R.id.nav_9);
         final android.view.MenuItem share_10 = menuNav.findItem(R.id.nav_10);
-
 
 
         mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -162,82 +192,135 @@ public class MainActivity extends Activity implements
                 googleMap.setOnMapLongClickListener(new OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng long_pushLocation) {
-                        LatLng new_location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);
-                        gMarker = googleMap.addMarker(new MarkerOptions().position(new_location).title(""+long_pushLocation.latitude+" :"+ long_pushLocation.longitude));
-                        CameraPosition cameraPos = new CameraPosition.Builder().target(long_pushLocation).zoom(15).build();
-                        MarkerOptions options = new MarkerOptions();
-                        options.position(long_pushLocation);
-                        // TODO Auto-generated method stub
-                        // タッチ地点と目的地との最短距離の計算
-                        float[] results = new float[1];
-                        Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
-                        int result = java.lang.Float.compare(results[0]/1000,max_dis);
-                        if(result == -1) {
-                            max_dis = results[0]/1000;
-                            email_tv.setText(String.valueOf(String.format("%.4f", max_dis))+"Km");
-                        }
-                        LatiLongDis[n]   = String.valueOf(String.format("%.6f",long_pushLocation.latitude));
-                        LatiLongDis[n+1] = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
-                        LatiLongDis[n+2] = String.valueOf(String.format("%.4f", results[0]/1000));
 
-                        switch (n){
+//                        // TODO Auto-generated method stub
+//                        // タッチ地点と目的地との最短距離の計算
+//                        float[] results = new float[1];
+//                        Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
+//                        int result = java.lang.Float.compare(results[0]/1000,max_dis);
+//                        if(result == -1) {
+//                            max_dis = results[0]/1000;
+//                            email_tv.setText(String.valueOf(String.format("%.4f", max_dis))+"Km");
+//                        }
+                        Dist[0]   = String.valueOf(String.format("%.6f",long_pushLocation.latitude));
+                        Dist[1] = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
+
+                        switch (n+1){
+
+                            //Dist[2] = String.valueOf(String.format("%.4f", results[0]/1000));
                             case 1:
-                                share_1.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location1 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location1).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options1 = new MarkerOptions();
+                                options1.position(new_location1);
+                                share_1.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_1 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
-                                options.icon(icon_1);
+                                options1.icon(icon_1);
+                                googleMap.addMarker(options1);
+                                n++;
                                 break;
                             case 2:
-                                share_2.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location2 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location2).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options2 = new MarkerOptions();
+                                options2.position(new_location2);
+                                share_2.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
-                                options.icon(icon_2);
+                                options2.icon(icon_2);
+                                googleMap.addMarker(options2);
+                                n++;
                                 break;
                             case 3:
-                                share_3.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location3 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location3).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options3 = new MarkerOptions();
+                                options3.position(new_location3);
+                                share_3.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-                                options.icon(icon_3);
+                                options3.icon(icon_3);
+                                googleMap.addMarker(options3);
+                                n++;
                                 break;
                             case 4:
-                                share_4.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location4 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location4).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options4 = new MarkerOptions();
+                                options4.position(new_location4);
+                                share_4.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
-                                options.icon(icon_4);
+                                options4.icon(icon_4);
+                                googleMap.addMarker(options4);
+                                n++;
                                 break;
                             case 5:
-                                share_5.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location5 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location5).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options5 = new MarkerOptions();
+                                options5.position(new_location5);
+                                share_5.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_5 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-                                options.icon(icon_5);
+                                options5.icon(icon_5);
+                                googleMap.addMarker(options5);
+                                n++;
                                 break;
                             case 6:
-                                share_6.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location6 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location6).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options6 = new MarkerOptions();
+                                options6.position(new_location6);
+                                share_6.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_6 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-                                options.icon(icon_6);
+                                options6.icon(icon_6);
+                                googleMap.addMarker(options6);
+                                n++;
                                 break;
                             case 7:
-                                share_7.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location7 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location7).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options7 = new MarkerOptions();
+                                options7.position(new_location7);
+                                share_7.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_7 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-                                options.icon(icon_7);
+                                options7.icon(icon_7);
+                                googleMap.addMarker(options7);
+                                n++;
                                 break;
                             case 8:
-                                share_8.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location8 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location8).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options8 = new MarkerOptions();
+                                options8.position(new_location8);
+                                share_8.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
-                                options.icon(icon_8);
+                                options8.icon(icon_8);
+                                googleMap.addMarker(options8);
+                                n++;
                                 break;
                             case 9:
-                                share_9.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location9 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location9).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options9 = new MarkerOptions();
+                                options9.position(new_location9);
+                                share_9.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_9 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-                                options.icon(icon_9);
+                                options9.icon(icon_9);
+                                googleMap.addMarker(options9);
+                                n++;
                                 break;
                             case 10:
-                                share_10.setTitle("目的地まで : "+LatiLongDis[n+2]+"Km");
+                                LatLng new_location10 = new LatLng(java.lang.Long.valueOf(LatiLongDis[4*n+1]), java.lang.Long.valueOf(LatiLongDis[4*n+2]));
+                                gMarker = googleMap.addMarker(new MarkerOptions().position(new_location10).title(""+LatiLongDis[4*n+1]+" :"+ LatiLongDis[4*n+2]));
+                                MarkerOptions options10 = new MarkerOptions();
+                                options10.position(new_location10);
+                                share_10.setTitle("目的地まで : "+LatiLongDis[4*n+2]+"Km");
                                 BitmapDescriptor icon_10 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-                                options.icon(icon_10);
-                                Toast.makeText(getApplicationContext(), "欲張りすぎ...", Toast.LENGTH_LONG).show();
+                                options10.icon(icon_10);
+                                googleMap.addMarker(options10);
                                 n = 0;
                                 break;
 
                         }
-                        googleMap.addMarker(options);
-                        n = n + 1;
-                        Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]/1000) ).toString() + "Km", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]/1000) ).toString() + "Km", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -361,12 +444,48 @@ public class MainActivity extends Activity implements
     private class RefreshListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            //startLocationUpdate(true);
-            //state = UpdatingState.REQUESTING;
-            tabelog();
+            startLocationUpdate(true);
+            state = UpdatingState.REQUESTING;
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        XmlPullParser xmlPullParser = Xml.newPullParser();
+                        tabelog();
+                        URL url = new URL(gURL);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        xmlPullParser.setInput(con.getInputStream(), "UTF-8");
+                        int eventType;
+                        n = 0;
+                        while ((eventType = xmlPullParser.next()) != XmlPullParser.END_DOCUMENT) {
+                            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("name")) {
+                                LatiLongDis[4*n] = xmlPullParser.nextText();
+                                System.out.println(LatiLongDis[4*n]);
+                            }
+                            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("latitude")) {
+                                LatiLongDis[4*n+1] = xmlPullParser.nextText();
+                                System.out.println(LatiLongDis[4*n+1]);
+                            }
+
+                            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("longitude")) {
+                                LatiLongDis[4*n+2] = xmlPullParser.nextText();
+                                System.out.println(LatiLongDis[4*n+2]);
+                                n++;
+                            }
+
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("error...");
+                    }
+                }
+            }).start();
 
         }
     }
+
+
 
      // 地名を入れて経路を検索
     private void test1(){
@@ -385,20 +504,21 @@ public class MainActivity extends Activity implements
      * ぐるなびWebサービスのレストラン検索APIで緯度経度検索を実行しパースするプログラム
      * 注意：緯度、経度、範囲は固定で入れています。
      *　　　　アクセスキーはアカウント登録時に発行されたキーを指定してください。
-     *      JsonをパースするためにライブラリにJacksonを追加しています。
      ******************************************************************************/
 
         public static void tabelog() {
             // アクセスキー
             String acckey = "412ef37422f2ca18584801e4d25ce0a3";
             // 緯度
-            String lat = "35.670082";
+            String lat = "35.605029";
             // 経度
-            String lon = "139.763267";
+            String lon = "139.682493";
             // 範囲
             String range = "1";
             // 返却形式
             String format = "xml";
+            // 結果表示数
+            String hit_per_page = "10";
             // エンドポイント
             String gnaviRestUri = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
             String prmFormat = "?format=" + format;
@@ -406,6 +526,7 @@ public class MainActivity extends Activity implements
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
+            String perPage = "&hit_per_page=" + hit_per_page;
 
             // URI組み立て
             StringBuffer uri = new StringBuffer();
@@ -415,83 +536,15 @@ public class MainActivity extends Activity implements
             uri.append(prmLat);
             uri.append(prmLon);
             uri.append(prmRange);
+            uri.append(perPage);
 
             // API実行、結果を取得し出力
-
-            getNodeList(uri.toString());
-        }
-
-        public static void getNodeList(String url){
-            try {
-                XmlPullParser xmlPullParser = Xml.newPullParser();
-                URL restSearch = new URL(url);
-                java.net.URLConnection connection = restSearch.openConnection();
-                System.out.println("connection");
-                //http.setRequestMethod("GET");
-                xmlPullParser.setInput(connection.getInputStream(), "UTF-8");
-                //http.connect();
-
-                System.out.println("success");
-                //Jackson
-                //JSONObject json = new JSONObject(http.getInputStream().toString()).getJSONObject("attribu");
-                // JSONArray  json = new JSONObject(http.getInputStream().toString()).getJSONArray("@attributes");
-
-                String a[] = new String[10];
-                int counter = 0;
-                System.out.println("success111111111111");
-                for(int e = xmlPullParser.getEventType(); e != XmlPullParser.END_DOCUMENT; e = xmlPullParser.next()){
-                    if(e == XmlPullParser.START_TAG && xmlPullParser.getName().equals("name")){
-                        a[counter] = xmlPullParser.nextText();
-                        System.out.println(a[counter]);
-                        System.out.println(counter);
-                        counter++;
-                    }
-                }
-
-                //String data1 = json.getString("attributes");
-
-                System.out.println("success22222222222222222");
-                //System.out.println(data1);
-
-            } catch (Exception e){
-                Log.d("XmlPullParserSampleUrl", "Error");
-            }
+            gURL = uri.toString();
+            //getNodeList(uri.toString());
         }
 
 
-
-//
-//        private static void viewJsonNode(JsonNode nodeList) {
-//            if (nodeList != null) {
-//                //トータルヒット件数
-//                String hitcount = "total:" + nodeList.path("total_hit_count").asText();
-//                System.out.println(hitcount);
-//                //restのみ取得
-//                JsonNode restList = nodeList.path("rest");
-//                Iterator<JsonNode> rest = restList.iterator();
-//                //店舗番号、店舗名、最寄の路線、最寄の駅、最寄駅から店までの時間、店舗の小業態を出力
-//                while (rest.hasNext()) {
-//                    JsonNode r = rest.next();
-//                    String id = r.path("id").asText();
-//                    String name = r.path("name").asText();
-//                    String line = r.path("access").path("line").asText();
-//                    String station = r.path("access").path("station").asText();
-//                    String walk = r.path("access").path("walk").asText() + "分";
-//                    String categorys = "";
-//
-//                    for (JsonNode n : r.path("code").path("category_name_s")) {
-//                        categorys += n.asText();
-//                    }
-//                    System.out.println(id + "¥t" + name + "¥t" + line + "¥t" + station + "¥t" + walk + "¥t" + categorys);
-//                }
-//            }
-//        }
-
-
-
-
-
-    }
+}
 
 
 
