@@ -453,8 +453,9 @@ public class MainActivity extends Activity implements
                     try {
 
                         XmlPullParser xmlPullParser = Xml.newPullParser();
-                        tabelog();
+                        tabelog(String.valueOf(Lat), String.valueOf(Long));
                         URL url = new URL(gURL);
+                        System.out.println(gURL);
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         xmlPullParser.setInput(con.getInputStream(), "UTF-8");
                         int eventType;
@@ -506,13 +507,13 @@ public class MainActivity extends Activity implements
      *　　　　アクセスキーはアカウント登録時に発行されたキーを指定してください。
      ******************************************************************************/
 
-        public static void tabelog() {
+        public static void tabelog(String LAT, String LONG) {
             // アクセスキー
             String acckey = "412ef37422f2ca18584801e4d25ce0a3";
             // 緯度
-            String lat = "35.605029";
+            String lat = LAT;
             // 経度
-            String lon = "139.682493";
+            String lon = LONG;
             // 範囲
             String range = "1";
             // 返却形式
