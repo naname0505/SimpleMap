@@ -6,7 +6,7 @@
                 android:id="@+id/nav_1"
                 android:checkable="true"
                 android:icon="@drawable/icon1"
-                android:background="#21d8de"
+                android:background="#00ffffff"
                 android:title="1"/>
             <item
                 android:id="@+id/nav_2"
@@ -36,7 +36,7 @@
             <item
                 android:id="@+id/nav_7"
                 android:checkable="true"
-                android:icon="@drawable/icon5"
+                android:icon="@drawable/icon10"
                 android:title="7" />
             <item
                 android:id="@+id/nav_8"
@@ -48,11 +48,6 @@
                 android:checkable="true"
                 android:icon="@drawable/icon6"
                 android:title="9" />
-            <item
-                android:id="@+id/nav_10"
-                android:checkable="true"
-                android:icon="@drawable/icon10"
-                android:title="10" />
         </menu>
     </item>
 </menu>
