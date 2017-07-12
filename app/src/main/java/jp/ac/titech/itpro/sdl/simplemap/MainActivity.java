@@ -97,7 +97,9 @@ public class MainActivity extends Activity implements
     private ArrayList<String> Llatilong;
     int n = 1;
     int i = 0;
-    String Dist[] = new String [3];
+    static double DD;
+    static int DI = 1;
+    static String Dist[] = new String [3];
     String LatLongDis[] = new String [40]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
     float max_dis = 10000000;
     static String gURL;
@@ -163,10 +165,9 @@ public class MainActivity extends Activity implements
                         Dist[0]   = String.valueOf(String.format("%.6f",long_pushLocation.latitude));
                         Dist[1]   = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
                         Dist[2]   = String.valueOf(results[0]);
-                        //System.out.println(Dist[2]);
-
-
-                        //Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]/1000) ).toString() + "Km", Toast.LENGTH_LONG).show();
+                        DD = Double.parseDouble(Dist[2]);
+                        System.out.println(DD);
+                        Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]) ).toString() + "m", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -325,6 +326,7 @@ public class MainActivity extends Activity implements
     private class RefreshListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -393,16 +395,29 @@ public class MainActivity extends Activity implements
         float[] results = new float[1];
 
 
-//
-//        if(gMarker1 != null) gMarker1.remove();
-//        if(gMarker2 != null) gMarker2.remove();
-//        if(gMarker3 != null) gMarker3.remove();
-//        if(gMarker4 != null) gMarker4.remove();
-//        if(gMarker5 != null) gMarker5.remove();
-//        if(gMarker6 != null) gMarker6.remove();
-//        if(gMarker7 != null) gMarker7.remove();
-//        if(gMarker8 != null) gMarker8.remove();
-//        if(gMarker9 != null) gMarker9.remove();
+        if(gMarker1 != null) gMarker1.remove();
+        if(gMarker2 != null) gMarker2.remove();
+        if(gMarker3 != null) gMarker3.remove();
+        if(gMarker4 != null) gMarker4.remove();
+        if(gMarker5 != null) gMarker5.remove();
+        if(gMarker6 != null) gMarker6.remove();
+        if(gMarker7 != null) gMarker7.remove();
+        if(gMarker8 != null) gMarker8.remove();
+        if(gMarker9 != null) gMarker9.remove();
+
+
+        share_1.setTitle("");
+        share_2.setTitle("");
+        share_3.setTitle("");
+        share_4.setTitle("");
+        share_5.setTitle("");
+        share_6.setTitle("");
+        share_7.setTitle("");
+        share_8.setTitle("");
+        share_9.setTitle("");
+
+
+
         //@@@@@@  1   @@@@@@@@
         if(LatLongDis[0]!=null&&LatLongDis[1]!=null&&LatLongDis[2]!=null) {
             double wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
@@ -550,6 +565,9 @@ public class MainActivity extends Activity implements
             gMarker9 = googleMap.addMarker(options9);
         }
 
+        for(int q =0; q<40; q++) {
+            LatLongDis[q] = null;
+        }
 
 
 //        String prefixURL = "https://tabelog.com/map/?sw=";
@@ -577,13 +595,18 @@ public class MainActivity extends Activity implements
             // 経度
             String lon = LONG;
             // 範囲
-            String range = "3";
+//            if((Dist[2])<=300) DI = 1;
+//            if(300<Integer.parseInt(Dist[2]) && Integer.parseInt(Dist[2])<=500) DI = 2;
+//            if(500<Integer.parseInt(Dist[2]) && Integer.parseInt(Dist[2])<=1000) DI = 3;
+//            if(1000<Integer.parseInt(Dist[2]) && Integer.parseInt(Dist[2])<=2000) DI = 4;
+//            if(2000<Integer.parseInt(Dist[2]) && Integer.parseInt(Dist[2])<=3000) DI = 5;
+
+//            String range = String.valueOf(DI);
+            String range = "1";
             // 返却形式
             String format = "xml";
             // 結果表示数
             String hit_per_page = "9";
-            // 経度緯度の表示方法
-            String input_coordinates_mode = "2";
             // ジャンル
             String category_l1 = "RSFST03000";
             // ジャンル
@@ -591,7 +614,7 @@ public class MainActivity extends Activity implements
             // ジャンル
             String category_l3 = "RSFST06000";
             // ジャンル
-            String category_l4 = "RSFST8000";
+            String category_l4 = "RSFST08000";
             // ジャンル
             String category_l5 = "RSFST14000";
             // ジャンル
@@ -654,6 +677,7 @@ public class MainActivity extends Activity implements
 
             // API実行、結果を取得し出力
             gURL = uri.toString();
+
             //getNodeList(uri.toString());
         }
 
