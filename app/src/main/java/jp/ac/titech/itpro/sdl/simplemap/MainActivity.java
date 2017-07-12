@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -32,8 +33,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import android.view.View.OnClickListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+
+import android.widget.CompoundButton;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -48,7 +52,7 @@ import android.util.Xml;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnClickListener{
     private final static String TAG = "MainActivity";
 
     private GoogleMap googleMap;
@@ -64,10 +68,32 @@ public class MainActivity extends Activity implements
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private final static int REQCODE_PERMISSIONS = 1111;
+
+    static private int URLtocb1, URLtocb2, URLtocb3, URLtocb4, URLtocb5, URLtocb6, URLtocb7, URLtocb8, URLtocb9;
+
+    private CheckBox mCBJ1;
+    private CheckBox mCBJ2;
+    private CheckBox mCBJ3;
+    private CheckBox mCBJ4;
+    private CheckBox mCBJ5;
+    private CheckBox mCBJ6;
+    private CheckBox mCBJ7;
+    private CheckBox mCBJ8;
+    private CheckBox mCBJ9;
+
+
     double Lat;
     double Long;
     private Marker dMarker = null;
-    private Marker gMarker = null;
+    private Marker gMarker1 = null;
+    private Marker gMarker2 = null;
+    private Marker gMarker3 = null;
+    private Marker gMarker4 = null;
+    private Marker gMarker5 = null;
+    private Marker gMarker6 = null;
+    private Marker gMarker7 = null;
+    private Marker gMarker8 = null;
+    private Marker gMarker9 = null;
     private ArrayList<String> Llatilong;
     int n = 1;
     int i = 0;
@@ -93,18 +119,6 @@ public class MainActivity extends Activity implements
         View header=navigationView.getHeaderView(0);
         final TextView email_tv = (TextView)header.findViewById(R.id.email);
         final TextView name_tv = (TextView)header.findViewById(R.id.name);
-
-        final android.view.Menu menuNav = navigationView.getMenu();
-        final android.view.MenuItem share_1  = menuNav.findItem(R.id.nav_1);
-        final android.view.MenuItem share_2  = menuNav.findItem(R.id.nav_2);
-        final android.view.MenuItem share_3  = menuNav.findItem(R.id.nav_3);
-        final android.view.MenuItem share_4  = menuNav.findItem(R.id.nav_4);
-        final android.view.MenuItem share_5  = menuNav.findItem(R.id.nav_5);
-        final android.view.MenuItem share_6  = menuNav.findItem(R.id.nav_6);
-        final android.view.MenuItem share_7  = menuNav.findItem(R.id.nav_7);
-        final android.view.MenuItem share_8  = menuNav.findItem(R.id.nav_8);
-        final android.view.MenuItem share_9  = menuNav.findItem(R.id.nav_9);
-
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap map) {
@@ -147,7 +161,9 @@ public class MainActivity extends Activity implements
                             email_tv.setText("現在地からの距離"+String.valueOf(String.format("%.1f", max_dis))+"m");
                         }
                         Dist[0]   = String.valueOf(String.format("%.6f",long_pushLocation.latitude));
-                        Dist[1] = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
+                        Dist[1]   = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
+                        Dist[2]   = String.valueOf(results[0]);
+                        //System.out.println(Dist[2]);
 
 
                         //Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]/1000) ).toString() + "Km", Toast.LENGTH_LONG).show();
@@ -171,6 +187,36 @@ public class MainActivity extends Activity implements
         Button btClick = (Button) findViewById(R.id.btClick);
         RefreshListener listener = new RefreshListener();
         btClick.setOnClickListener(listener);
+
+
+        mCBJ1 = (CheckBox) findViewById(R.id.cbJ1);
+        mCBJ1.setChecked(false);
+        mCBJ1.setOnClickListener(this);
+        mCBJ2 = (CheckBox) findViewById(R.id.cbJ2);
+        mCBJ2.setChecked(false);
+        mCBJ2.setOnClickListener(this);
+        mCBJ3 = (CheckBox) findViewById(R.id.cbJ3);
+        mCBJ3.setChecked(false);
+        mCBJ3.setOnClickListener(this);
+        mCBJ4 = (CheckBox) findViewById(R.id.cbJ4);
+        mCBJ4.setChecked(false);
+        mCBJ4.setOnClickListener(this);
+        mCBJ5 = (CheckBox) findViewById(R.id.cbJ5);
+        mCBJ5.setChecked(false);
+        mCBJ5.setOnClickListener(this);
+        mCBJ6 = (CheckBox) findViewById(R.id.cbJ6);
+        mCBJ6.setChecked(false);
+        mCBJ6.setOnClickListener(this);
+        mCBJ7 = (CheckBox) findViewById(R.id.cbJ7);
+        mCBJ7.setChecked(false);
+        mCBJ7.setOnClickListener(this);
+        mCBJ8 = (CheckBox) findViewById(R.id.cbJ8);
+        mCBJ8.setChecked(false);
+        mCBJ8.setOnClickListener(this);
+        mCBJ9 = (CheckBox) findViewById(R.id.cbJ9);
+        mCBJ9.setChecked(false);
+        mCBJ9.setOnClickListener(this);
+
 
     }
 
@@ -346,6 +392,17 @@ public class MainActivity extends Activity implements
         final android.view.MenuItem share_9  = menuNav.findItem(R.id.nav_9);
         float[] results = new float[1];
 
+
+//
+//        if(gMarker1 != null) gMarker1.remove();
+//        if(gMarker2 != null) gMarker2.remove();
+//        if(gMarker3 != null) gMarker3.remove();
+//        if(gMarker4 != null) gMarker4.remove();
+//        if(gMarker5 != null) gMarker5.remove();
+//        if(gMarker6 != null) gMarker6.remove();
+//        if(gMarker7 != null) gMarker7.remove();
+//        if(gMarker8 != null) gMarker8.remove();
+//        if(gMarker9 != null) gMarker9.remove();
         //@@@@@@  1   @@@@@@@@
         if(LatLongDis[0]!=null&&LatLongDis[1]!=null&&LatLongDis[2]!=null) {
             double wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
@@ -353,12 +410,13 @@ public class MainActivity extends Activity implements
             LatLng new_location1 = new LatLng(wlat1, wlng1);
             Location.distanceBetween(wlat1, wlng1, Lat, Long, results);
             share_1.setTitle(LatLongDis[0]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location1).title(LatLongDis[0]+ " #"+LatLongDis[1]+"/"+LatLongDis[2]));
+            if(gMarker1 != null) gMarker1.remove();
+            //gMarker1 = googleMap.addMarker(new MarkerOptions().position(new_location1).title(LatLongDis[0]+ " #"+LatLongDis[1]+"/"+LatLongDis[2]));
             MarkerOptions options1 = new MarkerOptions();
             options1.position(new_location1);
             BitmapDescriptor icon_1 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
             options1.icon(icon_1);
-            googleMap.addMarker(options1);
+            gMarker1 = googleMap.addMarker(options1);
         }
 
         //@@@@@@  2   @@@@@@@@
@@ -368,12 +426,13 @@ public class MainActivity extends Activity implements
             LatLng new_location2 = new LatLng(wlat2, wlng2);
             Location.distanceBetween(wlat2, wlng2, Lat, Long, results);
             share_2.setTitle(LatLongDis[4]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location2).title(LatLongDis[4]+ " #"+LatLongDis[5]+"/"+LatLongDis[6]));
+            if(gMarker2 != null) gMarker2.remove();
+            //gMarker2 = googleMap.addMarker(new MarkerOptions().position(new_location2).title(LatLongDis[4]+ " #"+LatLongDis[5]+"/"+LatLongDis[6]));
             MarkerOptions options2 = new MarkerOptions();
             options2.position(new_location2);
             BitmapDescriptor icon_2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
             options2.icon(icon_2);
-            googleMap.addMarker(options2);
+            gMarker2 = googleMap.addMarker(options2);
         }
 
         //@@@@@@  3   @@@@@@@@
@@ -383,12 +442,13 @@ public class MainActivity extends Activity implements
             LatLng new_location3 = new LatLng(wlat3, wlng3);
             Location.distanceBetween(wlat3, wlng3, Lat, Long, results);
             share_3.setTitle(LatLongDis[8]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location3).title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
+            if(gMarker3 != null) gMarker3.remove();
+            //gMarker3 = googleMap.addMarker(new MarkerOptions().position(new_location3).title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
             MarkerOptions options3 = new MarkerOptions();
             options3.position(new_location3);
             BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
             options3.icon(icon_3);
-            googleMap.addMarker(options3);
+            gMarker3 = googleMap.addMarker(options3);
         }
 
         //@@@@@@  4   @@@@@@@@
@@ -398,12 +458,13 @@ public class MainActivity extends Activity implements
             LatLng new_location4 = new LatLng(wlat4, wlng4);
             Location.distanceBetween(wlat4, wlng4, Lat, Long, results);
             share_4.setTitle(LatLongDis[12]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location4).title(LatLongDis[12]+ " #"+LatLongDis[13]+"/"+LatLongDis[14]));
+            if(gMarker4 != null) gMarker4.remove();
+            //gMarker4 = googleMap.addMarker(new MarkerOptions().position(new_location4).title(LatLongDis[12]+ " #"+LatLongDis[13]+"/"+LatLongDis[14]));
             MarkerOptions options4 = new MarkerOptions();
             options4.position(new_location4);
             BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
             options4.icon(icon_4);
-            googleMap.addMarker(options4);
+            gMarker4 = googleMap.addMarker(options4);
         }
 
         //@@@@@@  5   @@@@@@@@
@@ -413,12 +474,13 @@ public class MainActivity extends Activity implements
             LatLng new_location5 = new LatLng(wlat5, wlng5);
             Location.distanceBetween(wlat5, wlng5, Lat, Long, results);
             share_5.setTitle(LatLongDis[16]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location5).title(LatLongDis[16]+ " #"+LatLongDis[17]+"/"+LatLongDis[18]));
+            if(gMarker5 != null) gMarker5.remove();
+            //gMarker5 = googleMap.addMarker(new MarkerOptions().position(new_location5).title(LatLongDis[16]+ " #"+LatLongDis[17]+"/"+LatLongDis[18]));
             MarkerOptions options5 = new MarkerOptions();
             options5.position(new_location5);
             BitmapDescriptor icon_5 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
             options5.icon(icon_5);
-            googleMap.addMarker(options5);
+            gMarker5 = googleMap.addMarker(options5);
         }
 
         //@@@@@@  6   @@@@@@@@
@@ -428,12 +490,13 @@ public class MainActivity extends Activity implements
             LatLng new_location6 = new LatLng(wlat6, wlng6);
             Location.distanceBetween(wlat6, wlng6, Lat, Long, results);
             share_6.setTitle(LatLongDis[20]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location6).title(LatLongDis[20]+ " #"+LatLongDis[21]+"/"+LatLongDis[22]));
+            if(gMarker6 != null) gMarker6.remove();
+            //gMarker6 = googleMap.addMarker(new MarkerOptions().position(new_location6).title(LatLongDis[20]+ " #"+LatLongDis[21]+"/"+LatLongDis[22]));
             MarkerOptions options6 = new MarkerOptions();
             options6.position(new_location6);
             BitmapDescriptor icon_6 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
             options6.icon(icon_6);
-            googleMap.addMarker(options6);
+            gMarker6 = googleMap.addMarker(options6);
         }
 
 
@@ -444,12 +507,13 @@ public class MainActivity extends Activity implements
             LatLng new_location7 = new LatLng(wlat7, wlng7);
             Location.distanceBetween(wlat7, wlng7, Lat, Long, results);
             share_7.setTitle(LatLongDis[24]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location7).title(LatLongDis[24]+ " #"+LatLongDis[25]+"/"+LatLongDis[26]));
+            if(gMarker7 != null) gMarker7.remove();
+            //gMarker7 = googleMap.addMarker(new MarkerOptions().position(new_location7).title(LatLongDis[24]+ " #"+LatLongDis[25]+"/"+LatLongDis[26]));
             MarkerOptions options7 = new MarkerOptions();
             options7.position(new_location7);
             BitmapDescriptor icon_7 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             options7.icon(icon_7);
-            googleMap.addMarker(options7);
+            gMarker7 = googleMap.addMarker(options7);
         }
 
 
@@ -460,12 +524,13 @@ public class MainActivity extends Activity implements
             LatLng new_location8 = new LatLng(wlat8, wlng8);
             Location.distanceBetween(wlat8, wlng8, Lat, Long, results);
             share_8.setTitle(LatLongDis[28]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location8).title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
+            if(gMarker8 != null) gMarker8.remove();
+            //gMarker8 = googleMap.addMarker(new MarkerOptions().position(new_location8).title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
             MarkerOptions options8 = new MarkerOptions();
             options8.position(new_location8);
             BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
             options8.icon(icon_8);
-            googleMap.addMarker(options8);
+            gMarker8 = googleMap.addMarker(options8);
         }
 
 
@@ -476,12 +541,13 @@ public class MainActivity extends Activity implements
             LatLng new_location9 = new LatLng(wlat9, wlng9);
             Location.distanceBetween(wlat9, wlng9, Lat, Long, results);
             share_9.setTitle(LatLongDis[32]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
-            gMarker = googleMap.addMarker(new MarkerOptions().position(new_location9).title(LatLongDis[32]+ " #"+LatLongDis[33]+"/"+LatLongDis[34]));
+            if(gMarker9 != null) gMarker9.remove();
+            //gMarker9 = googleMap.addMarker(new MarkerOptions().position(new_location9).title(LatLongDis[32]+ " #"+LatLongDis[33]+"/"+LatLongDis[34]));
             MarkerOptions options9 = new MarkerOptions();
             options9.position(new_location9);
             BitmapDescriptor icon_9 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
             options9.icon(icon_9);
-            googleMap.addMarker(options9);
+            gMarker9 = googleMap.addMarker(options9);
         }
 
 
@@ -519,7 +585,23 @@ public class MainActivity extends Activity implements
             // 経度緯度の表示方法
             String input_coordinates_mode = "2";
             // ジャンル
-            String category_l = "RSFST08000";
+            String category_l1 = "RSFST03000";
+            // ジャンル
+            String category_l2 = "RSFST05000";
+            // ジャンル
+            String category_l3 = "RSFST06000";
+            // ジャンル
+            String category_l4 = "RSFST8000";
+            // ジャンル
+            String category_l5 = "RSFST14000";
+            // ジャンル
+            String category_l6 = "RSFST11000";
+            // ジャンル
+            String category_l7 = "RSFST16000";
+            // ジャンル
+            String category_l8 = "RSFST18000";
+            // ジャンル
+            String category_l9 = "RSFST20000";
             /*
             * RSFST03000  susi
             * RSFST05000  yakiniku horumonn
@@ -541,7 +623,15 @@ public class MainActivity extends Activity implements
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
             String perPage = "&hit_per_page=" + hit_per_page;
-            String category = "&category_l=" + category_l;
+            String category1 = "&category_l=" + category_l1;
+            String category2 = "&category_l=" + category_l2;
+            String category3 = "&category_l=" + category_l3;
+            String category4 = "&category_l=" + category_l4;
+            String category5 = "&category_l=" + category_l5;
+            String category6 = "&category_l=" + category_l6;
+            String category7 = "&category_l=" + category_l7;
+            String category8 = "&category_l=" + category_l8;
+            String category9 = "&category_l=" + category_l9;
 
             // URI組み立て
             StringBuffer uri = new StringBuffer();
@@ -552,13 +642,83 @@ public class MainActivity extends Activity implements
             uri.append(prmLon);
             uri.append(prmRange);
             uri.append(perPage);
-            uri.append(category);
+            if(URLtocb1==1)uri.append(category1);
+            if(URLtocb2==1)uri.append(category2);
+            if(URLtocb3==1)uri.append(category3);
+            if(URLtocb4==1)uri.append(category4);
+            if(URLtocb5==1)uri.append(category5);
+            if(URLtocb6==1)uri.append(category6);
+            if(URLtocb7==1)uri.append(category7);
+            if(URLtocb8==1)uri.append(category8);
+            if(URLtocb9==1)uri.append(category9);
 
             // API実行、結果を取得し出力
             gURL = uri.toString();
             //getNodeList(uri.toString());
         }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.cbJ1:
+                URLtocb1 = 0;
+                if(mCBJ1.isChecked()){	// チェックされている場合
+                    URLtocb1 = 1;
+                }
+                break;
+            case R.id.cbJ2:
+                URLtocb2 = 0;
+                if(mCBJ2.isChecked()){	// チェックされている場合
+                    URLtocb2 = 1;
+                }
+                break;
+            case R.id.cbJ3:
+                URLtocb3 = 0;
+                if(mCBJ3.isChecked()){	// チェックされている場合
+                    URLtocb3 = 1;
+                }
+                break;
+            case R.id.cbJ4:
+                URLtocb4 = 0;
+                if(mCBJ4.isChecked()){	// チェックされている場合
+                    URLtocb4 = 1;
+                }
+                break;
+            case R.id.cbJ5:
+                URLtocb5 = 0;
+                if(mCBJ5.isChecked()){	// チェックされている場合
+                    URLtocb5 = 1;
+                }
+                break;
+            case R.id.cbJ6:
+                URLtocb6 = 0;
+                if(mCBJ6.isChecked()){	// チェックされている場合
+                    URLtocb6 = 1;
+                }
+                break;
+            case R.id.cbJ7:
+                URLtocb7 = 0;
+                if(mCBJ7.isChecked()){	// チェックされている場合
+                    URLtocb7 = 1;
+                }
+                break;
+            case R.id.cbJ8:
+                URLtocb8 = 0;
+                if(mCBJ8.isChecked()){	// チェックされている場合
+                    URLtocb8 = 1;
+                }
+                break;
+            case R.id.cbJ9:
+                URLtocb9 = 0;
+                if(mCBJ9.isChecked()){	// チェックされている場合
+                    URLtocb9 = 1;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
 
 }
