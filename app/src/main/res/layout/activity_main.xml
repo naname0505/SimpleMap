@@ -20,6 +20,8 @@
             android:layout_height="match_parent">
         </LinearLayout>
 
+
+
         <fragment
             android:id="@+id/map_fragment"
             android:name="com.google.android.gms.maps.MapFragment"

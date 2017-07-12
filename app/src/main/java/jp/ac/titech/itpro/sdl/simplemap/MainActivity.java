@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.app.Activity;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import android.text.TextUtils;
+import com.google.android.gms.maps.model.Marker;
 
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -65,13 +66,14 @@ public class MainActivity extends Activity implements
     private final static int REQCODE_PERMISSIONS = 1111;
     double Lat;
     double Long;
+    private Marker dMarker = null;
     private Marker gMarker = null;
     private ArrayList<String> Llatilong;
     int n = 1;
     int i = 0;
     String Dist[] = new String [3];
     String LatLongDis[] = new String [40]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
-    float max_dis = 10000;
+    float max_dis = 10000000;
     static String gURL;
 
 
@@ -109,24 +111,20 @@ public class MainActivity extends Activity implements
                 map.moveCamera(CameraUpdateFactory.zoomTo(15));
                 googleMap = map;
                 // タップした時のリスナーをセット
-                googleMap.setOnMapClickListener(new OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng tapLocation) {
-                        // tapされた位置の緯度経度
-                        //location = new LatLng(tapLocation.latitude, tapLocation.longitude);
-                        //googleMap.addMarker(new MarkerOptions().position(location).title(""+tapLocation.latitude+" :"+ tapLocation.longitude));
-                        // googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
-                        /*
-                        // TODO Auto-generated method stub
-                        String id = .getId();
-                        if (id.equals("m0")) {
-                            // マーカー削除
-                            gMarker.remove();
-                            toast.makeText(getApplicationContext(), "マーカー削除!", Toast.LENGTH_LONG).show();
-                        }
-                        */
-                    }
-                });
+//                googleMap.setOnMapClickListener(new OnMapClickListener() {
+//                    @Override
+//                    public void onMapClick(LatLng tapLocation) {
+//
+//                        // TODO Auto-generated method stub
+//                        String id = gMarker.getId();
+//                        if (id.equals("m0")) {
+//                            // マーカー削除
+//                            gMarker.remove();
+//                            Toast.makeText(getApplicationContext(), "マーカー削除!", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    }
+//                });
 
                 // 長押しのリスナーをセット
                 googleMap.setOnMapLongClickListener(new OnMapLongClickListener() {
@@ -135,13 +133,19 @@ public class MainActivity extends Activity implements
 
 //                        // TODO Auto-generated method stub
 //                        // タッチ地点と目的地との最短距離の計算
-//                        float[] results = new float[1];
-//                        Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
-//                        int result = java.lang.Float.compare(results[0]/1000,max_dis);
-//                        if(result == -1) {
-//                            max_dis = results[0]/1000;
-//                            email_tv.setText(String.valueOf(String.format("%.4f", max_dis))+"Km");
-//                        }
+
+                        if(dMarker != null) dMarker.remove();
+                        //tapされた位置の緯度経度
+                        location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);
+                        dMarker = googleMap.addMarker(new MarkerOptions().position(location).title(""+long_pushLocation.latitude+" :"+ long_pushLocation.longitude));
+                        //googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
+                        float[] results = new float[1];
+                        Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
+                        int result = java.lang.Float.compare(results[0]/1000,max_dis);
+                        if(result == -1) {
+                            max_dis = results[0];
+                            email_tv.setText("現在地からの距離"+String.valueOf(String.format("%.1f", max_dis))+"m");
+                        }
                         Dist[0]   = String.valueOf(String.format("%.6f",long_pushLocation.latitude));
                         Dist[1] = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
 
@@ -514,6 +518,21 @@ public class MainActivity extends Activity implements
             String hit_per_page = "9";
             // 経度緯度の表示方法
             String input_coordinates_mode = "2";
+            // ジャンル
+            String category_l = "RSFST08000";
+            /*
+            * RSFST03000  susi
+            * RSFST05000  yakiniku horumonn
+            * RSFST06000  yakitori
+            * RSFST08000  raamen
+            * RSFST14000  tyuuka
+            * RSFST11000  itariann
+            * RSFST16000  curry
+            * RSFST18000  cafe kanmi
+            * RSFST20000  famiresu
+            *
+            * */
+
             // エンドポイント
             String gnaviRestUri = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
             String prmFormat = "?format=" + format;
@@ -522,7 +541,7 @@ public class MainActivity extends Activity implements
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
             String perPage = "&hit_per_page=" + hit_per_page;
-            String LLformat = "&input_coordinates_mode=" + input_coordinates_mode;
+            String category = "&category_l=" + category_l;
 
             // URI組み立て
             StringBuffer uri = new StringBuffer();
@@ -533,7 +552,7 @@ public class MainActivity extends Activity implements
             uri.append(prmLon);
             uri.append(prmRange);
             uri.append(perPage);
-           // uri.append(LLformat);
+            uri.append(category);
 
             // API実行、結果を取得し出力
             gURL = uri.toString();
