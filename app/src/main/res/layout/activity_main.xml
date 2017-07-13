@@ -59,7 +59,11 @@
             android:id="@+id/cbJ1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+
             android:background="#df7401"
             android:text="@string/cb_j1"/>
 
@@ -67,13 +71,18 @@
             android:id="@+id/cbJ2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j2"/>
         <CheckBox
             android:id="@+id/cbJ3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j3"/>
 
@@ -81,13 +90,18 @@
             android:id="@+id/cbJ4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j4"/>
         <CheckBox
             android:id="@+id/cbJ5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j5"/>
 
@@ -95,6 +109,9 @@
             android:id="@+id/cbJ6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j6"/>
 
@@ -102,6 +119,9 @@
             android:id="@+id/cbJ7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j7"/>
 
@@ -109,6 +129,9 @@
             android:id="@+id/cbJ8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j8"/>
 
@@ -116,6 +139,9 @@
             android:id="@+id/cbJ9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginRight="5dp"
             android:background="#df7401"
             android:text="@string/cb_j9"/>
 
