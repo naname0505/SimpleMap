@@ -52,7 +52,9 @@ import android.util.Xml;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, OnClickListener{
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
+        OnClickListener, android.support.design.widget.NavigationView.OnNavigationItemSelectedListener{
+
     private final static String TAG = "MainActivity";
 
     private GoogleMap googleMap;
@@ -118,10 +120,13 @@ public class MainActivity extends Activity implements
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment);
 
         android.support.design.widget.NavigationView navigationView = (android.support.design.widget.NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         View header=navigationView.getHeaderView(0);
+
         final TextView email_tv = (TextView)header.findViewById(R.id.email);
         final TextView name_tv = (TextView)header.findViewById(R.id.name);
+
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap map) {
@@ -708,7 +713,6 @@ public class MainActivity extends Activity implements
                 URLtocb1 = 0;
                 if(mCBJ1.isChecked()){	// チェックされている場合
                     URLtocb1 = 1;
-
                 }
                 break;
             case R.id.cbJ2:
@@ -769,6 +773,44 @@ public class MainActivity extends Activity implements
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.setGravity(android.view.Gravity.CENTER|android.view.Gravity.CENTER, x, y);
         toast.show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(android.view.MenuItem item) {
+
+        switch(item.getItemId()){
+            case R.id.nav_1:
+                Log.d(TAG, "Item 1 Selected!");
+                break;
+            case R.id.nav_2:
+                Log.d(TAG, "Item 2 Selected!");
+                break;
+            case R.id.nav_3:
+                Log.d(TAG, "Item 3 Selected!");
+                break;
+            case R.id.nav_4:
+                Log.d(TAG, "Item 4 Selected!");
+                break;
+            case R.id.nav_5:
+                Log.d(TAG, "Item 5 Selected!");
+                break;
+            case R.id.nav_6:
+                Log.d(TAG, "Item 6 Selected!");
+                break;
+            case R.id.nav_7:
+                Log.d(TAG, "Item 7 Selected!");
+                break;
+            case R.id.nav_8:
+                Log.d(TAG, "Item 8 Selected!");
+                break;
+            case R.id.nav_9:
+                Log.d(TAG, "Item 9 Selected!");
+                break;
+        }
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+ //       drawer.closeDrawer(android.support.v4.view.GravityCompat.START);
+        return true;
     }
 
 
