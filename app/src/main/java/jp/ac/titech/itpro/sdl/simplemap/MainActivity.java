@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements
     static double DD;
     static int DI = 0;
     static String Dist[] = new String [3];
-    String LatLongDis[] = new String [40]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
+    String LatLongDis[] = new String [50]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
     float max_dis = 10000000;
     static String gURL;
 
@@ -366,9 +366,14 @@ public class MainActivity extends Activity implements
                         xmlPullParser.setInput(con.getInputStream(), "UTF-8");
                         int eventType;
                         int Tname = 0;
+                        int TUrl  = 0;
                         int TLat  = 0;
                         int TLng  = 0;
 
+
+                        /******************************************
+                         *      XMLのパース
+                         ******************************************/
 
                         while ((eventType = xmlPullParser.next()) != XmlPullParser.END_DOCUMENT) {
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("name")) {
@@ -376,6 +381,12 @@ public class MainActivity extends Activity implements
                                 Tname++;
                                 if(Tname == 10) Tname = 0;
                                 //System.out.println(LatLongDis[4*n]);
+                            }
+                            if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("url")) {
+                                LatLongDis[4*TUrl+3] = xmlPullParser.nextText();
+                                TUrl++;
+                                if(TUrl == 10) TUrl = 0;
+                                //System.out.println(LatLongDis[4*n+1]);
                             }
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("latitude")) {
                                 LatLongDis[4*TLat+1] = xmlPullParser.nextText();
