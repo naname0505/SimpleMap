@@ -84,6 +84,24 @@ public class MainActivity extends Activity implements
     private CheckBox mCBJ8;
     private CheckBox mCBJ9;
 
+    private double wlat1;
+    private double wlng1;
+    private double wlat2;
+    private double wlng2;
+    private double wlat3;
+    private double wlng3;
+    private double wlat4;
+    private double wlng4;
+    private double wlat5;
+    private double wlng5;
+    private double wlat6;
+    private double wlng6;
+    private double wlat7;
+    private double wlng7;
+    private double wlat8;
+    private double wlng8;
+    private double wlat9;
+    private double wlng9;
 
     double Lat;
     double Long;
@@ -443,8 +461,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  1   @@@@@@@@
         if(LatLongDis[0]!=null&&LatLongDis[1]!=null&&LatLongDis[2]!=null) {
-            double wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
-            double wlng1 =  java.lang.Double.valueOf(LatLongDis[2]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[1]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[2]) + 0.010040;
+            wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
+            wlng1 =  java.lang.Double.valueOf(LatLongDis[2]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[1]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[2]) + 0.010040;
             LatLng new_location1 = new LatLng(wlat1, wlng1);
             Location.distanceBetween(wlat1, wlng1, Lat, Long, results);
             share_1.setTitle(LatLongDis[0]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -459,8 +477,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  2   @@@@@@@@
         if(LatLongDis[4]!=null&&LatLongDis[5]!=null&&LatLongDis[6]!=null) {
-            double wlat2 =  java.lang.Double.valueOf(LatLongDis[5]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[5])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[6]) + 0.0046017;
-            double wlng2 =  java.lang.Double.valueOf(LatLongDis[6]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[5]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[6]) + 0.010040;
+            wlat2 =  java.lang.Double.valueOf(LatLongDis[5]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[5])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[6]) + 0.0046017;
+            wlng2 =  java.lang.Double.valueOf(LatLongDis[6]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[5]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[6]) + 0.010040;
             LatLng new_location2 = new LatLng(wlat2, wlng2);
             Location.distanceBetween(wlat2, wlng2, Lat, Long, results);
             share_2.setTitle(LatLongDis[4]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -475,8 +493,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  3   @@@@@@@@
         if(LatLongDis[8]!=null&&LatLongDis[9]!=null&&LatLongDis[10]!=null) {
-            double wlat3 =  java.lang.Double.valueOf(LatLongDis[9]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[9])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[10]) + 0.0046017;
-            double wlng3 =  java.lang.Double.valueOf(LatLongDis[10]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[9]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[10]) + 0.010040;
+            wlat3 =  java.lang.Double.valueOf(LatLongDis[9]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[9])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[10]) + 0.0046017;
+            wlng3 =  java.lang.Double.valueOf(LatLongDis[10]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[9]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[10]) + 0.010040;
             LatLng new_location3 = new LatLng(wlat3, wlng3);
             Location.distanceBetween(wlat3, wlng3, Lat, Long, results);
             share_3.setTitle(LatLongDis[8]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -491,8 +509,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  4   @@@@@@@@
         if(LatLongDis[12]!=null&&LatLongDis[13]!=null&&LatLongDis[14]!=null) {
-            double wlat4 =  java.lang.Double.valueOf(LatLongDis[13]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[13])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[14]) + 0.0046017;
-            double wlng4 =  java.lang.Double.valueOf(LatLongDis[14]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[13]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[14]) + 0.010040;
+            wlat4 =  java.lang.Double.valueOf(LatLongDis[13]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[13])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[14]) + 0.0046017;
+            wlng4 =  java.lang.Double.valueOf(LatLongDis[14]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[13]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[14]) + 0.010040;
             LatLng new_location4 = new LatLng(wlat4, wlng4);
             Location.distanceBetween(wlat4, wlng4, Lat, Long, results);
             share_4.setTitle(LatLongDis[12]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -507,8 +525,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  5   @@@@@@@@
         if(LatLongDis[16]!=null&&LatLongDis[17]!=null&&LatLongDis[18]!=null) {
-            double wlat5 =  java.lang.Double.valueOf(LatLongDis[17]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[17])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[18]) + 0.0046017;
-            double wlng5 =  java.lang.Double.valueOf(LatLongDis[18]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[17]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[18]) + 0.010040;
+            wlat5 =  java.lang.Double.valueOf(LatLongDis[17]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[17])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[18]) + 0.0046017;
+            wlng5 =  java.lang.Double.valueOf(LatLongDis[18]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[17]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[18]) + 0.010040;
             LatLng new_location5 = new LatLng(wlat5, wlng5);
             Location.distanceBetween(wlat5, wlng5, Lat, Long, results);
             share_5.setTitle(LatLongDis[16]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -523,8 +541,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  6   @@@@@@@@
         if(LatLongDis[20]!=null&&LatLongDis[21]!=null&&LatLongDis[22]!=null) {
-            double wlat6 =  java.lang.Double.valueOf(LatLongDis[21]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[21])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[22]) + 0.0046017;
-            double wlng6 =  java.lang.Double.valueOf(LatLongDis[22]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[21]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[22]) + 0.010040;
+            wlat6 =  java.lang.Double.valueOf(LatLongDis[21]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[21])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[22]) + 0.0046017;
+            wlng6 =  java.lang.Double.valueOf(LatLongDis[22]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[21]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[22]) + 0.010040;
             LatLng new_location6 = new LatLng(wlat6, wlng6);
             Location.distanceBetween(wlat6, wlng6, Lat, Long, results);
             share_6.setTitle(LatLongDis[20]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -540,8 +558,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  7   @@@@@@@@
         if(LatLongDis[24]!=null&&LatLongDis[25]!=null&&LatLongDis[26]!=null) {
-            double wlat7 =  java.lang.Double.valueOf(LatLongDis[25]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[25])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[26]) + 0.0046017;
-            double wlng7 =  java.lang.Double.valueOf(LatLongDis[26]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[25]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[26]) + 0.010040;
+            wlat7 =  java.lang.Double.valueOf(LatLongDis[25]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[25])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[26]) + 0.0046017;
+            wlng7 =  java.lang.Double.valueOf(LatLongDis[26]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[25]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[26]) + 0.010040;
             LatLng new_location7 = new LatLng(wlat7, wlng7);
             Location.distanceBetween(wlat7, wlng7, Lat, Long, results);
             share_7.setTitle(LatLongDis[24]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -557,8 +575,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  8   @@@@@@@@
         if(LatLongDis[28]!=null&&LatLongDis[29]!=null&&LatLongDis[30]!=null) {
-            double wlat8 =  java.lang.Double.valueOf(LatLongDis[29]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[29])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[30]) + 0.0046017;
-            double wlng8 =  java.lang.Double.valueOf(LatLongDis[30]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[29]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[30]) + 0.010040;
+            wlat8 =  java.lang.Double.valueOf(LatLongDis[29]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[29])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[30]) + 0.0046017;
+            wlng8 =  java.lang.Double.valueOf(LatLongDis[30]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[29]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[30]) + 0.010040;
             LatLng new_location8 = new LatLng(wlat8, wlng8);
             Location.distanceBetween(wlat8, wlng8, Lat, Long, results);
             share_8.setTitle(LatLongDis[28]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -574,8 +592,8 @@ public class MainActivity extends Activity implements
 
         //@@@@@@  9   @@@@@@@@
         if(LatLongDis[32]!=null&&LatLongDis[33]!=null&&LatLongDis[34]!=null) {
-            double wlat9 =  java.lang.Double.valueOf(LatLongDis[33]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[33])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[34]) + 0.0046017;
-            double wlng9 =  java.lang.Double.valueOf(LatLongDis[34]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[33]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[34]) + 0.010040;
+            wlat9 =  java.lang.Double.valueOf(LatLongDis[33]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[33])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[34]) + 0.0046017;
+            wlng9 =  java.lang.Double.valueOf(LatLongDis[34]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[33]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[34]) + 0.010040;
             LatLng new_location9 = new LatLng(wlat9, wlng9);
             Location.distanceBetween(wlat9, wlng9, Lat, Long, results);
             share_9.setTitle(LatLongDis[32]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
@@ -781,30 +799,66 @@ public class MainActivity extends Activity implements
         switch(item.getItemId()){
             case R.id.nav_1:
                 Log.d(TAG, "Item 1 Selected!");
+                if(wlat1 != 0 && wlng1 != 0) {
+                    location = new LatLng(wlat1, wlng1);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_2:
                 Log.d(TAG, "Item 2 Selected!");
+                if(wlat2 != 0 && wlng2 != 0) {
+                    location = new LatLng(wlat2, wlng2);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_3:
                 Log.d(TAG, "Item 3 Selected!");
+                if(wlat3 != 0 && wlng3 != 0) {
+                    location = new LatLng(wlat3, wlng3);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_4:
                 Log.d(TAG, "Item 4 Selected!");
+                if(wlat4 != 0 && wlng4 != 0) {
+                    location = new LatLng(wlat4, wlng4);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_5:
                 Log.d(TAG, "Item 5 Selected!");
+                if(wlat5 != 0 && wlng5 != 0) {
+                    location = new LatLng(wlat5, wlng5);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_6:
                 Log.d(TAG, "Item 6 Selected!");
+                if(wlat6 != 0 && wlng6 != 0) {
+                    location = new LatLng(wlat6, wlng6);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_7:
                 Log.d(TAG, "Item 7 Selected!");
+                if(wlat7 != 0 && wlng7 != 0) {
+                    location = new LatLng(wlat7, wlng7);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_8:
                 Log.d(TAG, "Item 8 Selected!");
+                if(wlat8 != 0 && wlng8 != 0) {
+                    location = new LatLng(wlat8, wlng8);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
             case R.id.nav_9:
                 Log.d(TAG, "Item 9 Selected!");
+                if(wlat9 != 0 && wlng9 != 0) {
+                    location = new LatLng(wlat9, wlng9);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                }
                 break;
         }
 
