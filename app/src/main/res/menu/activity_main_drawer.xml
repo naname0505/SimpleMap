@@ -11,6 +11,7 @@
             <item
                 android:id="@+id/nav_2"
                 android:checkable="true"
+                android:state_focused="true"
                 android:background="#ffffff"
                 android:icon="@mipmap/icon8"
                 android:title="2" />
@@ -30,7 +31,7 @@
                 android:id="@+id/nav_5"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@mipmap/icon12"
+                android:icon="@mipmap/icon2"
                 android:title="5" />
             <item
                 android:id="@+id/nav_6"

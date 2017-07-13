@@ -143,6 +143,51 @@ public class MainActivity extends Activity implements
         android.support.design.widget.NavigationView navigationView = (android.support.design.widget.NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu()
+                .findItem(R.id. nav_1)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#00FFFF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_2)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#0000FF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_3)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#FF69B4"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_4)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#87CEFA"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_5)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#DA70D6"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_6)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#E9967A"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_7)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#FFFF00"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_8)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#7CFC00"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
+        navigationView.getMenu()
+                .findItem(R.id. nav_9)
+                .getIcon()
+                .setColorFilter(android.graphics.Color.parseColor("#BA55D3"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+
         View header=navigationView.getHeaderView(0);
 
         final TextView email_tv = (TextView)header.findViewById(R.id.email);
@@ -483,7 +528,7 @@ public class MainActivity extends Activity implements
             //gMarker1 = googleMap.addMarker(new MarkerOptions().position(new_location1).title(LatLongDis[0]+ " #"+LatLongDis[1]+"/"+LatLongDis[2]));
             MarkerOptions options1 = new MarkerOptions();
             options1.position(new_location1);
-            BitmapDescriptor icon_1 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+            BitmapDescriptor icon_1 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
             options1.icon(icon_1);
             gMarker1 = googleMap.addMarker(options1.title(LatLongDis[0]+ " ここまで"+LatLongDis[4]+"m"));
         }
@@ -517,7 +562,7 @@ public class MainActivity extends Activity implements
             //gMarker3 = googleMap.addMarker(new MarkerOptions().position(new_location3).title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
             MarkerOptions options3 = new MarkerOptions();
             options3.position(new_location3);
-            BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+            BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
             options3.icon(icon_3);
             gMarker3 = googleMap.addMarker(options3.title(LatLongDis[10]+ " ここまで"+LatLongDis[14]+"m"));
         }
@@ -534,7 +579,7 @@ public class MainActivity extends Activity implements
             //gMarker4 = googleMap.addMarker(new MarkerOptions().position(new_location4).title(LatLongDis[12]+ " #"+LatLongDis[13]+"/"+LatLongDis[14]));
             MarkerOptions options4 = new MarkerOptions();
             options4.position(new_location4);
-            BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
+            BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
             options4.icon(icon_4);
             gMarker4 = googleMap.addMarker(options4.title(LatLongDis[15]+ " ここまで"+LatLongDis[19]+"m"));
         }
@@ -604,7 +649,7 @@ public class MainActivity extends Activity implements
             //gMarker8 = googleMap.addMarker(new MarkerOptions().position(new_location8).title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
             MarkerOptions options8 = new MarkerOptions();
             options8.position(new_location8);
-            BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
+            BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
             options8.icon(icon_8);
             gMarker8 = googleMap.addMarker(options8.title(LatLongDis[35]+ " ここまで"+LatLongDis[39]+"m"));
         }
