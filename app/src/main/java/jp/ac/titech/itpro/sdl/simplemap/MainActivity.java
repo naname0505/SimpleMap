@@ -119,9 +119,12 @@ public class MainActivity extends Activity implements
     int n = 1;
     int i = 0;
     static double DD;
+    static double DDD;
+    static int  dd;
+    static int  ddd;
     static int DI = 0;
     static String Dist[] = new String [3];
-    String LatLongDis[] = new String [50]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
+    String LatLongDis[] = new String [100]; //4n=name 4n+1=lat 4n+2=long 4n+3=dis ...
     float max_dis = 10000000;
     static String gURL;
 
@@ -190,7 +193,8 @@ public class MainActivity extends Activity implements
                         Dist[1]   = String.valueOf(String.format("%.6f",long_pushLocation.longitude));
                         Dist[2]   = String.valueOf(results[0]);
                         DD = Double.parseDouble(Dist[2]);
-                        System.out.println(DD);
+                        dd = (int)DD;
+                        System.out.println(dd);
                         Toast.makeText(getApplicationContext(), "現在地からの距離：" + ( (Float)(results[0]) ).toString() + "m", Toast.LENGTH_SHORT).show();
 
                     }
@@ -352,6 +356,7 @@ public class MainActivity extends Activity implements
         @Override
         public void onClick(View view) {
 
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -377,44 +382,41 @@ public class MainActivity extends Activity implements
 
                         while ((eventType = xmlPullParser.next()) != XmlPullParser.END_DOCUMENT) {
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("name")) {
-                                LatLongDis[4*Tname] = xmlPullParser.nextText();
+                                LatLongDis[5*Tname] = xmlPullParser.nextText();
                                 Tname++;
-                                if(Tname == 10) Tname = 0;
                                 //System.out.println(LatLongDis[4*n]);
                             }
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("url")) {
-                                LatLongDis[4*TUrl+3] = xmlPullParser.nextText();
+                                LatLongDis[5*TUrl+3] = xmlPullParser.nextText();
                                 TUrl++;
-                                if(TUrl == 10) TUrl = 0;
                                 //System.out.println(LatLongDis[4*n+1]);
                             }
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("latitude")) {
-                                LatLongDis[4*TLat+1] = xmlPullParser.nextText();
+                                LatLongDis[5*TLat+1] = xmlPullParser.nextText();
                                 TLat++;
-                                if(TLat == 10) TLat = 0;
                                 //System.out.println(LatLongDis[4*n+1]);
                             }
 
                             if (eventType == XmlPullParser.START_TAG && xmlPullParser.getName().equals("longitude")) {
-                                LatLongDis[4*TLng+2] = xmlPullParser.nextText();
+                                LatLongDis[5*TLng+2] = xmlPullParser.nextText();
 
                                 TLng++;
-//                                if(LatLongDis[4*(TLat-1)+1]!=null){
-//                                    double wlat =  java.lang.Double.valueOf(LatLongDis[4*TLat+1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[4*TLat+1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[4*TLat+2]) + 0.0046017;
-//                                    double wlng =  java.lang.Double.valueOf(LatLongDis[4*TLat+2]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[4*TLat+1]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[4*TLat+2]) + 0.010040;
-//                                    float[] results = new float[1];
-//                                    Location.distanceBetween(wlat,wlng, Lat, Long, results);
-//                                    System.out.println(DD);
-//                                    System.out.println(results[0]);
-//                                    if(DD<results[0]) {
-//                                        Tname--;
-//                                        TLat--;
-//                                        TLng--;
-//                                    }
-//                                }
-                                if(TLng == 10) {
-                                    TLng = 0;
-                                    //break;
+                                if(LatLongDis[5*(TLat-1)+1]!=null){
+                                    double wlat =  java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+2]) + 0.0046017;
+                                    double wlng =  java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+2]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+1]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[5*(TLat-1)+2]) + 0.010040;
+                                    float[] results = new float[1];
+                                    Location.distanceBetween(wlat,wlng, Lat, Long, results);
+                                    DDD = Double.parseDouble(String.valueOf(results[0]));
+                                    ddd = (int)DDD;
+                                    if(dd+100<ddd) {
+                                        System.out.println("@@@@@@@ do --@@@@@@@@");
+                                        System.out.print(ddd+", ");
+                                        System.out.println(dd);
+                                        Tname--;
+                                        TUrl--;
+                                        TLat--;
+                                        TLng--;
+                                    }
                                 }
                             }
                         }
@@ -469,158 +471,166 @@ public class MainActivity extends Activity implements
         share_9.setTitle("");
 
 
-
         //@@@@@@  1   @@@@@@@@
         if(LatLongDis[0]!=null&&LatLongDis[1]!=null&&LatLongDis[2]!=null) {
-            wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[1])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
+            wlat1 =  java.lang.Double.valueOf(LatLongDis[1]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[1]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[2]) + 0.0046017;
             wlng1 =  java.lang.Double.valueOf(LatLongDis[2]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[1]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[2]) + 0.010040;
             LatLng new_location1 = new LatLng(wlat1, wlng1);
             Location.distanceBetween(wlat1, wlng1, Lat, Long, results);
-            share_1.setTitle(LatLongDis[0]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[4] = String.valueOf(String.format("%.1f",results[0]));
+            share_1.setTitle(LatLongDis[0]+":"+LatLongDis[4]+"m");
             //if(gMarker1 != null) gMarker1.remove();
             //gMarker1 = googleMap.addMarker(new MarkerOptions().position(new_location1).title(LatLongDis[0]+ " #"+LatLongDis[1]+"/"+LatLongDis[2]));
             MarkerOptions options1 = new MarkerOptions();
             options1.position(new_location1);
             BitmapDescriptor icon_1 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
             options1.icon(icon_1);
-            gMarker1 = googleMap.addMarker(options1.title(LatLongDis[0]+ " #"+LatLongDis[1]+"/"+LatLongDis[2]));
+            gMarker1 = googleMap.addMarker(options1.title(LatLongDis[0]+ " ここまで"+LatLongDis[4]+"m"));
         }
 
         //@@@@@@  2   @@@@@@@@
-        if(LatLongDis[4]!=null&&LatLongDis[5]!=null&&LatLongDis[6]!=null) {
-            wlat2 =  java.lang.Double.valueOf(LatLongDis[5]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[5])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[6]) + 0.0046017;
-            wlng2 =  java.lang.Double.valueOf(LatLongDis[6]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[5]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[6]) + 0.010040;
+        if(LatLongDis[5]!=null&&LatLongDis[6]!=null&&LatLongDis[7]!=null) {
+            wlat2 =  java.lang.Double.valueOf(LatLongDis[6]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[6]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[7]) + 0.0046017;
+            wlng2 =  java.lang.Double.valueOf(LatLongDis[7]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[6]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[7]) + 0.010040;
             LatLng new_location2 = new LatLng(wlat2, wlng2);
             Location.distanceBetween(wlat2, wlng2, Lat, Long, results);
-            share_2.setTitle(LatLongDis[4]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[9] = String.valueOf(String.format("%.1f",results[0]));
+            share_2.setTitle(LatLongDis[5]+":"+LatLongDis[9]+"m");
             //if(gMarker2 != null) gMarker2.remove();
             //gMarker2 = googleMap.addMarker(new MarkerOptions().position(new_location2).title(LatLongDis[4]+ " #"+LatLongDis[5]+"/"+LatLongDis[6]));
             MarkerOptions options2 = new MarkerOptions();
             options2.position(new_location2);
             BitmapDescriptor icon_2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
             options2.icon(icon_2);
-            gMarker2 = googleMap.addMarker(options2.title(LatLongDis[4]+ " #"+LatLongDis[5]+"/"+LatLongDis[6]));
+            gMarker2 = googleMap.addMarker(options2.title(LatLongDis[5]+ " ここまで"+LatLongDis[9]+"m"));
         }
 
         //@@@@@@  3   @@@@@@@@
-        if(LatLongDis[8]!=null&&LatLongDis[9]!=null&&LatLongDis[10]!=null) {
-            wlat3 =  java.lang.Double.valueOf(LatLongDis[9]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[9])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[10]) + 0.0046017;
-            wlng3 =  java.lang.Double.valueOf(LatLongDis[10]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[9]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[10]) + 0.010040;
+        if(LatLongDis[10]!=null&&LatLongDis[11]!=null&&LatLongDis[12]!=null) {
+            wlat3 =  java.lang.Double.valueOf(LatLongDis[11])  -  0.00010695*java.lang.Double.valueOf(LatLongDis[11]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[12]) + 0.0046017;
+            wlng3 =  java.lang.Double.valueOf(LatLongDis[12]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[11]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[12]) + 0.010040;
             LatLng new_location3 = new LatLng(wlat3, wlng3);
             Location.distanceBetween(wlat3, wlng3, Lat, Long, results);
-            share_3.setTitle(LatLongDis[8]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[14] = String.valueOf(String.format("%.1f",results[0]));
+            share_3.setTitle(LatLongDis[10]+":"+LatLongDis[14]+"m");
             //if(gMarker3 != null) gMarker3.remove();
             //gMarker3 = googleMap.addMarker(new MarkerOptions().position(new_location3).title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
             MarkerOptions options3 = new MarkerOptions();
             options3.position(new_location3);
             BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
             options3.icon(icon_3);
-            gMarker3 = googleMap.addMarker(options3.title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
+            gMarker3 = googleMap.addMarker(options3.title(LatLongDis[10]+ " ここまで"+LatLongDis[14]+"m"));
         }
 
         //@@@@@@  4   @@@@@@@@
-        if(LatLongDis[12]!=null&&LatLongDis[13]!=null&&LatLongDis[14]!=null) {
-            wlat4 =  java.lang.Double.valueOf(LatLongDis[13]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[13])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[14]) + 0.0046017;
-            wlng4 =  java.lang.Double.valueOf(LatLongDis[14]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[13]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[14]) + 0.010040;
+        if(LatLongDis[15]!=null&&LatLongDis[16]!=null&&LatLongDis[17]!=null) {
+            wlat4 =  java.lang.Double.valueOf(LatLongDis[16]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[16]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[17]) + 0.0046017;
+            wlng4 =  java.lang.Double.valueOf(LatLongDis[17]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[16]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[17]) + 0.010040;
             LatLng new_location4 = new LatLng(wlat4, wlng4);
             Location.distanceBetween(wlat4, wlng4, Lat, Long, results);
-            share_4.setTitle(LatLongDis[12]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[19] = String.valueOf(String.format("%.1f",results[0]));
+            share_4.setTitle(LatLongDis[15]+":"+LatLongDis[19]+"m");
             //if(gMarker4 != null) gMarker4.remove();
             //gMarker4 = googleMap.addMarker(new MarkerOptions().position(new_location4).title(LatLongDis[12]+ " #"+LatLongDis[13]+"/"+LatLongDis[14]));
             MarkerOptions options4 = new MarkerOptions();
             options4.position(new_location4);
             BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
             options4.icon(icon_4);
-            gMarker4 = googleMap.addMarker(options4.title(LatLongDis[12]+ " #"+LatLongDis[13]+"/"+LatLongDis[14]));
+            gMarker4 = googleMap.addMarker(options4.title(LatLongDis[15]+ " ここまで"+LatLongDis[19]+"m"));
         }
 
         //@@@@@@  5   @@@@@@@@
-        if(LatLongDis[16]!=null&&LatLongDis[17]!=null&&LatLongDis[18]!=null) {
-            wlat5 =  java.lang.Double.valueOf(LatLongDis[17]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[17])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[18]) + 0.0046017;
-            wlng5 =  java.lang.Double.valueOf(LatLongDis[18]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[17]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[18]) + 0.010040;
+        if(LatLongDis[20]!=null&&LatLongDis[21]!=null&&LatLongDis[22]!=null) {
+            wlat5 =  java.lang.Double.valueOf(LatLongDis[21]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[21]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[22]) + 0.0046017;
+            wlng5 =  java.lang.Double.valueOf(LatLongDis[22]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[21]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[22]) + 0.010040;
             LatLng new_location5 = new LatLng(wlat5, wlng5);
             Location.distanceBetween(wlat5, wlng5, Lat, Long, results);
-            share_5.setTitle(LatLongDis[16]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[24] = String.valueOf(String.format("%.1f",results[0]));
+            share_5.setTitle(LatLongDis[20]+":"+LatLongDis[24]+"m");
             //if(gMarker5 != null) gMarker5.remove();
             //gMarker5 = googleMap.addMarker(new MarkerOptions().position(new_location5).title(LatLongDis[16]+ " #"+LatLongDis[17]+"/"+LatLongDis[18]));
             MarkerOptions options5 = new MarkerOptions();
             options5.position(new_location5);
             BitmapDescriptor icon_5 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
             options5.icon(icon_5);
-            gMarker5 = googleMap.addMarker(options5.title(LatLongDis[16]+ " #"+LatLongDis[17]+"/"+LatLongDis[18]));
+            gMarker5 = googleMap.addMarker(options5.title(LatLongDis[20]+ " ここまで"+LatLongDis[24]+"m"));
         }
 
         //@@@@@@  6   @@@@@@@@
-        if(LatLongDis[20]!=null&&LatLongDis[21]!=null&&LatLongDis[22]!=null) {
-            wlat6 =  java.lang.Double.valueOf(LatLongDis[21]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[21])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[22]) + 0.0046017;
-            wlng6 =  java.lang.Double.valueOf(LatLongDis[22]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[21]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[22]) + 0.010040;
+        if(LatLongDis[25]!=null&&LatLongDis[26]!=null&&LatLongDis[27]!=null) {
+            wlat6 =  java.lang.Double.valueOf(LatLongDis[26]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[26]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[27]) + 0.0046017;
+            wlng6 =  java.lang.Double.valueOf(LatLongDis[27]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[26]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[27]) + 0.010040;
             LatLng new_location6 = new LatLng(wlat6, wlng6);
             Location.distanceBetween(wlat6, wlng6, Lat, Long, results);
-            share_6.setTitle(LatLongDis[20]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[29] = String.valueOf(String.format("%.1f",results[0]));
+            share_6.setTitle(LatLongDis[25]+":"+LatLongDis[29]+"m");
             //if(gMarker6 != null) gMarker6.remove();
             //gMarker6 = googleMap.addMarker(new MarkerOptions().position(new_location6).title(LatLongDis[20]+ " #"+LatLongDis[21]+"/"+LatLongDis[22]));
             MarkerOptions options6 = new MarkerOptions();
             options6.position(new_location6);
             BitmapDescriptor icon_6 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
             options6.icon(icon_6);
-            gMarker6 = googleMap.addMarker(options6.title(LatLongDis[16]+ " #"+LatLongDis[17]+"/"+LatLongDis[18]));
+            gMarker6 = googleMap.addMarker(options6.title(LatLongDis[25]+ " ここまで"+LatLongDis[29]+"m"));
         }
 
 
         //@@@@@@  7   @@@@@@@@
-        if(LatLongDis[24]!=null&&LatLongDis[25]!=null&&LatLongDis[26]!=null) {
-            wlat7 =  java.lang.Double.valueOf(LatLongDis[25]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[25])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[26]) + 0.0046017;
-            wlng7 =  java.lang.Double.valueOf(LatLongDis[26]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[25]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[26]) + 0.010040;
+        if(LatLongDis[30]!=null&&LatLongDis[31]!=null&&LatLongDis[32]!=null) {
+            wlat7 =  java.lang.Double.valueOf(LatLongDis[31]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[31]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[32]) + 0.0046017;
+            wlng7 =  java.lang.Double.valueOf(LatLongDis[32]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[31]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[32]) + 0.010040;
             LatLng new_location7 = new LatLng(wlat7, wlng7);
             Location.distanceBetween(wlat7, wlng7, Lat, Long, results);
-            share_7.setTitle(LatLongDis[24]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[34] = String.valueOf(String.format("%.1f",results[0]));
+            share_7.setTitle(LatLongDis[30]+":"+LatLongDis[34]+"m");
             //if(gMarker7 != null) gMarker7.remove();
             //gMarker7 = googleMap.addMarker(new MarkerOptions().position(new_location7).title(LatLongDis[24]+ " #"+LatLongDis[25]+"/"+LatLongDis[26]));
             MarkerOptions options7 = new MarkerOptions();
             options7.position(new_location7);
             BitmapDescriptor icon_7 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             options7.icon(icon_7);
-            gMarker7 = googleMap.addMarker(options7.title(LatLongDis[24]+ " #"+LatLongDis[25]+"/"+LatLongDis[26]));
+            gMarker7 = googleMap.addMarker(options7.title(LatLongDis[30]+ " ここまで"+LatLongDis[34]+"m"));
         }
 
 
         //@@@@@@  8   @@@@@@@@
-        if(LatLongDis[28]!=null&&LatLongDis[29]!=null&&LatLongDis[30]!=null) {
-            wlat8 =  java.lang.Double.valueOf(LatLongDis[29]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[29])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[30]) + 0.0046017;
-            wlng8 =  java.lang.Double.valueOf(LatLongDis[30]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[29]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[30]) + 0.010040;
+        if(LatLongDis[35]!=null&&LatLongDis[36]!=null&&LatLongDis[37]!=null) {
+            wlat8 =  java.lang.Double.valueOf(LatLongDis[36]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[36]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[37]) + 0.0046017;
+            wlng8 =  java.lang.Double.valueOf(LatLongDis[37]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[36]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[37]) + 0.010040;
             LatLng new_location8 = new LatLng(wlat8, wlng8);
             Location.distanceBetween(wlat8, wlng8, Lat, Long, results);
-            share_8.setTitle(LatLongDis[28]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[39] = String.valueOf(String.format("%.1f",results[0]));
+            share_8.setTitle(LatLongDis[35]+":"+LatLongDis[39]+"m");
             //if(gMarker8 != null) gMarker8.remove();
             //gMarker8 = googleMap.addMarker(new MarkerOptions().position(new_location8).title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
             MarkerOptions options8 = new MarkerOptions();
             options8.position(new_location8);
             BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
             options8.icon(icon_8);
-            gMarker8 = googleMap.addMarker(options8.title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
+            gMarker8 = googleMap.addMarker(options8.title(LatLongDis[35]+ " ここまで"+LatLongDis[39]+"m"));
         }
 
 
         //@@@@@@  9   @@@@@@@@
-        if(LatLongDis[32]!=null&&LatLongDis[33]!=null&&LatLongDis[34]!=null) {
-            wlat9 =  java.lang.Double.valueOf(LatLongDis[33]) - 0.00010695*java.lang.Double.valueOf(LatLongDis[33])  + 0.000017464*java.lang.Double.valueOf(LatLongDis[34]) + 0.0046017;
-            wlng9 =  java.lang.Double.valueOf(LatLongDis[34]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[33]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[34]) + 0.010040;
+        if(LatLongDis[40]!=null&&LatLongDis[41]!=null&&LatLongDis[42]!=null) {
+            wlat9 =  java.lang.Double.valueOf(LatLongDis[41]) -  0.00010695*java.lang.Double.valueOf(LatLongDis[41]) + 0.000017464*java.lang.Double.valueOf(LatLongDis[42]) + 0.0046017;
+            wlng9 =  java.lang.Double.valueOf(LatLongDis[42]) - 0.000046038*java.lang.Double.valueOf(LatLongDis[41]) - 0.000083043*java.lang.Double.valueOf(LatLongDis[42]) + 0.010040;
             LatLng new_location9 = new LatLng(wlat9, wlng9);
             Location.distanceBetween(wlat9, wlng9, Lat, Long, results);
-            share_9.setTitle(LatLongDis[32]+":"+String.valueOf(String.format("%.1f",results[0]))+"m");
+            LatLongDis[44] = String.valueOf(String.format("%.1f",results[0]));
+            share_9.setTitle(LatLongDis[40]+":"+LatLongDis[44]+"m");
             //if(gMarker9 != null) gMarker9.remove();
             //gMarker9 = googleMap.addMarker(new MarkerOptions().position(new_location9).title(LatLongDis[32]+ " #"+LatLongDis[33]+"/"+LatLongDis[34]));
             MarkerOptions options9 = new MarkerOptions();
             options9.position(new_location9);
             BitmapDescriptor icon_9 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
             options9.icon(icon_9);
-            gMarker9 = googleMap.addMarker(options9.title(LatLongDis[32]+ " #"+LatLongDis[33]+"/"+LatLongDis[34]));
+            gMarker9 = googleMap.addMarker(options9.title(LatLongDis[40]+ " ここまで"+LatLongDis[44]+"m"));
         }
 
-        for(int q =0; q<40; q++) {
+
+        for(int q =0; q<100; q++) {
             LatLongDis[q] = null;
         }
-
 
 //        String prefixURL = "https://tabelog.com/map/?sw=";
 //        String start = "凌駕";
@@ -647,12 +657,29 @@ public class MainActivity extends Activity implements
             // 経度
             String lon = LONG;
             // 範囲
-            if(DD   <=300)              DI = 1;
-            if(300  < DD && DD <= 500 ) DI = 2;
-            if(500  < DD && DD <= 1000) DI = 3;
-            if(1000 < DD && DD <= 2000) DI = 4;
-            if(2000 < DD && DD <= 3000) DI = 5;
-            if(DI == 0) toastMake("トースト", 0, -200); DI=5;
+            System.out.println(DI);
+            if(dd   <=300.0000){
+                DI = 1;
+                System.out.println(dd);
+
+            }else if(300.0000  < dd && dd <= 500.0000 ){
+                DI = 2;
+            }else if(500.0000  < dd && dd <= 1000.0000){
+                DI = 3;
+            }else if(1000.0000 < dd && dd <= 2000.0000){
+                DI = 4;
+            }else if(2000.0000 < dd && dd <= 3000.0000){
+                DI = 5;
+            }else if(DI == 0) {
+                toastMake("トースト", 0, -200);
+                DI = 3;
+            }
+            /*
+            * 1:300m、2:500m、3:1000m、4:2000m、5:3000m
+            * */
+            System.out.println("$$$$$$$$$$$$$$$$$$$$");
+            System.out.println(DI);
+            System.out.println(DD);
             String range = String.valueOf(DI);
 //            String range = "1";
             // 返却形式
@@ -809,63 +836,54 @@ public class MainActivity extends Activity implements
 
         switch(item.getItemId()){
             case R.id.nav_1:
-                Log.d(TAG, "Item 1 Selected!");
                 if(wlat1 != 0 && wlng1 != 0) {
                     location = new LatLng(wlat1, wlng1);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_2:
-                Log.d(TAG, "Item 2 Selected!");
                 if(wlat2 != 0 && wlng2 != 0) {
                     location = new LatLng(wlat2, wlng2);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_3:
-                Log.d(TAG, "Item 3 Selected!");
                 if(wlat3 != 0 && wlng3 != 0) {
                     location = new LatLng(wlat3, wlng3);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_4:
-                Log.d(TAG, "Item 4 Selected!");
                 if(wlat4 != 0 && wlng4 != 0) {
                     location = new LatLng(wlat4, wlng4);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_5:
-                Log.d(TAG, "Item 5 Selected!");
                 if(wlat5 != 0 && wlng5 != 0) {
                     location = new LatLng(wlat5, wlng5);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_6:
-                Log.d(TAG, "Item 6 Selected!");
                 if(wlat6 != 0 && wlng6 != 0) {
                     location = new LatLng(wlat6, wlng6);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_7:
-                Log.d(TAG, "Item 7 Selected!");
                 if(wlat7 != 0 && wlng7 != 0) {
                     location = new LatLng(wlat7, wlng7);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_8:
-                Log.d(TAG, "Item 8 Selected!");
                 if(wlat8 != 0 && wlng8 != 0) {
                     location = new LatLng(wlat8, wlng8);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
                 }
                 break;
             case R.id.nav_9:
-                Log.d(TAG, "Item 9 Selected!");
                 if(wlat9 != 0 && wlng9 != 0) {
                     location = new LatLng(wlat9, wlng9);
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
