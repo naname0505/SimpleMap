@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- ToolBarのオプションメニューのOverflowアイコンの色 -->
+        <item name="windowActionModeOverlay">false</item>
+        <!--<item name="android:windowBackground">@null</item>-->
     </style>
 
 

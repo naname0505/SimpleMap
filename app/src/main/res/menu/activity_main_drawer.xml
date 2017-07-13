@@ -6,7 +6,7 @@
                 android:id="@+id/nav_1"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon1"
+                android:icon="@mipmap/icon11"
                 android:title="1"/>
             <item
                 android:id="@+id/nav_2"
@@ -18,43 +18,43 @@
                 android:id="@+id/nav_3"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon11"
+                android:icon="@mipmap/icon12"
                 android:title="3" />
             <item
                 android:id="@+id/nav_4"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon4"
+                android:icon="@mipmap/icon4"
                 android:title="4" />
             <item
                 android:id="@+id/nav_5"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon12"
+                android:icon="@mipmap/icon12"
                 android:title="5" />
             <item
                 android:id="@+id/nav_6"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon3"
+                android:icon="@mipmap/icon3"
                 android:title="6" />
             <item
                 android:id="@+id/nav_7"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon10"
+                android:icon="@mipmap/icon10"
                 android:title="7" />
             <item
                 android:id="@+id/nav_8"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon9"
+                android:icon="@mipmap/icon9"
                 android:title="8" />
             <item
                 android:id="@+id/nav_9"
                 android:checkable="true"
                 android:background="#ffffff"
-                android:icon="@drawable/icon6"
+                android:icon="@mipmap/icon6"
                 android:title="9" />
         </menu>
     </item>
