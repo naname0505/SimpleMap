@@ -228,10 +228,10 @@ public class MainActivity extends Activity implements
 
                         if(dMarker != null) dMarker.remove();
                         //tapされた位置の緯度経度
-                        location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+                        location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);
                         MarkerOptions options = new MarkerOptions();
                         options.position(location);
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher);
+                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher_to);
                         options.icon(icon);
                         dMarker = googleMap.addMarker(options.title("ここまでならいける..."));
                         //googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
@@ -367,7 +367,6 @@ public class MainActivity extends Activity implements
         System.out.println(Lat);
         System.out.println(Long);
         System.out.println("------------------------------");
-        test1();
     }
 
     @Override
@@ -482,16 +481,14 @@ public class MainActivity extends Activity implements
                     }
                 }
             }).start();
-
-                startLocationUpdate(true);
-                state = UpdatingState.REQUESTING;
+            uploadinfomation();
         }
     }
 
 
 
      // 地名を入れて経路を検索
-    private void test1(){
+    private void uploadinfomation(){
         android.support.design.widget.NavigationView navigationView = (android.support.design.widget.NavigationView) findViewById(R.id.nav_view);
         final android.view.Menu menuNav = navigationView.getMenu();
         final android.view.MenuItem share_1  = menuNav.findItem(R.id.nav_1);
@@ -715,10 +712,9 @@ public class MainActivity extends Activity implements
             String lon = LONG;
             // 範囲
             System.out.println(DI);
+
             if(dd   <=300.0000){
                 DI = 1;
-                System.out.println(dd);
-
             }else if(300.0000  < dd && dd <= 500.0000 ){
                 DI = 2;
             }else if(500.0000  < dd && dd <= 1000.0000){
@@ -728,7 +724,7 @@ public class MainActivity extends Activity implements
             }else if(2000.0000 < dd && dd <= 3000.0000){
                 DI = 5;
             }else if(DI == 0) {
-                toastMake("トースト", 0, -200);
+                toastMake("外でろ", 0, -200);
                 DI = 5;
             }
             /*
@@ -892,7 +888,7 @@ public class MainActivity extends Activity implements
 
     private void toastMake(String message, int x, int y){
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.setGravity(android.view.Gravity.CENTER|android.view.Gravity.CENTER, x, y);
+        toast.setGravity(android.view.Gravity.CENTER, x, y);
         toast.show();
     }
 
