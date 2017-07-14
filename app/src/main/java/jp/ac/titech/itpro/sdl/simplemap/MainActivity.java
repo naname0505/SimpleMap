@@ -481,14 +481,17 @@ public class MainActivity extends Activity implements
                     }
                 }
             }).start();
-            uploadinfomation();
+
+            startLocationUpdate(true);
+            state = UpdatingState.REQUESTING;
+            uploadinfo();
         }
     }
 
 
 
      // 地名を入れて経路を検索
-    private void uploadinfomation(){
+    private void uploadinfo(){
         android.support.design.widget.NavigationView navigationView = (android.support.design.widget.NavigationView) findViewById(R.id.nav_view);
         final android.view.Menu menuNav = navigationView.getMenu();
         final android.view.MenuItem share_1  = menuNav.findItem(R.id.nav_1);
@@ -686,15 +689,6 @@ public class MainActivity extends Activity implements
             LatLongDis[q] = null;
         }
 
-//        String prefixURL = "https://tabelog.com/map/?sw=";
-//        String start = "凌駕";
-//
-//        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//        intent.setClassName("com.google.android.googlequicksearchbox",
-//                "com.google.android.googlequicksearchbox.SearchActivity");
-//        intent.putExtra(SearchManager.QUER10Y, prefixURL + start + "&sk=" + Lat +" "+ Long);
-//        startActivity(intent);
-
     }
 
     /*******************************************************************************
@@ -724,7 +718,7 @@ public class MainActivity extends Activity implements
             }else if(2000.0000 < dd && dd <= 3000.0000){
                 DI = 5;
             }else if(DI == 0) {
-                toastMake("外でろ", 0, -200);
+                toastMake("トースト", 0, -200);
                 DI = 5;
             }
             /*
