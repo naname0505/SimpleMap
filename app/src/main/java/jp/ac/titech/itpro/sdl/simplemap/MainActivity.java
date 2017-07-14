@@ -106,6 +106,7 @@ public class MainActivity extends Activity implements
     double Lat;
     double Long;
     private Marker dMarker = null;
+    private Marker gMarker0 = null;
     private Marker gMarker1 = null;
     private Marker gMarker2 = null;
     private Marker gMarker3 = null;
@@ -115,6 +116,9 @@ public class MainActivity extends Activity implements
     private Marker gMarker7 = null;
     private Marker gMarker8 = null;
     private Marker gMarker9 = null;
+
+    private Button   okButton;
+
     private ArrayList<String> Llatilong;
     int n = 1;
     int i = 0;
@@ -146,22 +150,22 @@ public class MainActivity extends Activity implements
         navigationView.getMenu()
                 .findItem(R.id. nav_1)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#00FFFF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#48D1CC"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_2)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#0000FF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#3CB371"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_3)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#FF69B4"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#800080"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_4)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#87CEFA"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#1E90FF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_5)
@@ -176,17 +180,17 @@ public class MainActivity extends Activity implements
         navigationView.getMenu()
                 .findItem(R.id. nav_7)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#FFFF00"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#FFD700"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_8)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#7CFC00"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#0000FF"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         navigationView.getMenu()
                 .findItem(R.id. nav_9)
                 .getIcon()
-                .setColorFilter(android.graphics.Color.parseColor("#BA55D3"), android.graphics.PorterDuff.Mode.SRC_ATOP);
+                .setColorFilter(android.graphics.Color.parseColor("#FF69B4"), android.graphics.PorterDuff.Mode.SRC_ATOP);
 
         View header=navigationView.getHeaderView(0);
 
@@ -224,8 +228,12 @@ public class MainActivity extends Activity implements
 
                         if(dMarker != null) dMarker.remove();
                         //tapされた位置の緯度経度
-                        location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);
-                        dMarker = googleMap.addMarker(new MarkerOptions().position(location).title(""+long_pushLocation.latitude+" :"+ long_pushLocation.longitude));
+                        location = new LatLng(long_pushLocation.latitude, long_pushLocation.longitude);BitmapDescriptor icon_4 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+                        MarkerOptions options = new MarkerOptions();
+                        options.position(location);
+                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher);
+                        options.icon(icon);
+                        dMarker = googleMap.addMarker(options.title("ここまでならいける..."));
                         //googleMap.moveCamera(CameraUpdateFactory.zoomTo(15f));
                         float[] results = new float[1];
                         Location.distanceBetween(long_pushLocation.latitude, long_pushLocation.longitude, Lat, Long, results);
@@ -257,6 +265,9 @@ public class MainActivity extends Activity implements
 
         locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//
+//        okButton = (Button) findViewById(R.id.ok_button);
+//        okButton.setOnClickListener(this);
 
         Button btClick = (Button) findViewById(R.id.btClick);
         RefreshListener listener = new RefreshListener();
@@ -453,7 +464,7 @@ public class MainActivity extends Activity implements
                                     Location.distanceBetween(wlat,wlng, Lat, Long, results);
                                     DDD = Double.parseDouble(String.valueOf(results[0]));
                                     ddd = (int)DDD;
-                                    if(dd+100<ddd) {
+                                    if(dd != 0 && dd+100<ddd) {
                                         System.out.println("@@@@@@@ do --@@@@@@@@");
                                         System.out.print(ddd+", ");
                                         System.out.println(dd);
@@ -471,8 +482,9 @@ public class MainActivity extends Activity implements
                     }
                 }
             }).start();
-            startLocationUpdate(true);
-            state = UpdatingState.REQUESTING;
+
+                startLocationUpdate(true);
+                state = UpdatingState.REQUESTING;
         }
     }
 
@@ -545,7 +557,7 @@ public class MainActivity extends Activity implements
             //gMarker2 = googleMap.addMarker(new MarkerOptions().position(new_location2).title(LatLongDis[4]+ " #"+LatLongDis[5]+"/"+LatLongDis[6]));
             MarkerOptions options2 = new MarkerOptions();
             options2.position(new_location2);
-            BitmapDescriptor icon_2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+            BitmapDescriptor icon_2 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
             options2.icon(icon_2);
             gMarker2 = googleMap.addMarker(options2.title(LatLongDis[5]+ " ここまで"+LatLongDis[9]+"m"));
         }
@@ -562,7 +574,7 @@ public class MainActivity extends Activity implements
             //gMarker3 = googleMap.addMarker(new MarkerOptions().position(new_location3).title(LatLongDis[8]+ " #"+LatLongDis[9]+"/"+LatLongDis[10]));
             MarkerOptions options3 = new MarkerOptions();
             options3.position(new_location3);
-            BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
+            BitmapDescriptor icon_3 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
             options3.icon(icon_3);
             gMarker3 = googleMap.addMarker(options3.title(LatLongDis[10]+ " ここまで"+LatLongDis[14]+"m"));
         }
@@ -649,7 +661,7 @@ public class MainActivity extends Activity implements
             //gMarker8 = googleMap.addMarker(new MarkerOptions().position(new_location8).title(LatLongDis[28]+ " #"+LatLongDis[29]+"/"+LatLongDis[30]));
             MarkerOptions options8 = new MarkerOptions();
             options8.position(new_location8);
-            BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+            BitmapDescriptor icon_8 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
             options8.icon(icon_8);
             gMarker8 = googleMap.addMarker(options8.title(LatLongDis[35]+ " ここまで"+LatLongDis[39]+"m"));
         }
@@ -667,7 +679,7 @@ public class MainActivity extends Activity implements
             //gMarker9 = googleMap.addMarker(new MarkerOptions().position(new_location9).title(LatLongDis[32]+ " #"+LatLongDis[33]+"/"+LatLongDis[34]));
             MarkerOptions options9 = new MarkerOptions();
             options9.position(new_location9);
-            BitmapDescriptor icon_9 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+            BitmapDescriptor icon_9 = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
             options9.icon(icon_9);
             gMarker9 = googleMap.addMarker(options9.title(LatLongDis[40]+ " ここまで"+LatLongDis[44]+"m"));
         }
@@ -717,7 +729,7 @@ public class MainActivity extends Activity implements
                 DI = 5;
             }else if(DI == 0) {
                 toastMake("トースト", 0, -200);
-                DI = 3;
+                DI = 5;
             }
             /*
             * 1:300m、2:500m、3:1000m、4:2000m、5:3000m
@@ -864,6 +876,14 @@ public class MainActivity extends Activity implements
                     URLtocb9 = 1;
                 }
                 break;
+//
+//            case R.id.ok_button:
+//                System.out.println("aaaaaaaa");
+//                startLocationUpdate(true);
+//                state = UpdatingState.REQUESTING;
+//                break;
+
+
             default:
                 break;
         }
@@ -883,56 +903,59 @@ public class MainActivity extends Activity implements
             case R.id.nav_1:
                 if(wlat1 != 0 && wlng1 != 0) {
                     location = new LatLng(wlat1, wlng1);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_2:
                 if(wlat2 != 0 && wlng2 != 0) {
                     location = new LatLng(wlat2, wlng2);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_3:
                 if(wlat3 != 0 && wlng3 != 0) {
                     location = new LatLng(wlat3, wlng3);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_4:
                 if(wlat4 != 0 && wlng4 != 0) {
                     location = new LatLng(wlat4, wlng4);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_5:
                 if(wlat5 != 0 && wlng5 != 0) {
                     location = new LatLng(wlat5, wlng5);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_6:
                 if(wlat6 != 0 && wlng6 != 0) {
                     location = new LatLng(wlat6, wlng6);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_7:
                 if(wlat7 != 0 && wlng7 != 0) {
                     location = new LatLng(wlat7, wlng7);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_8:
                 if(wlat8 != 0 && wlng8 != 0) {
                     location = new LatLng(wlat8, wlng8);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
                 break;
             case R.id.nav_9:
                 if(wlat9 != 0 && wlng9 != 0) {
                     location = new LatLng(wlat9, wlng9);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17));
                 }
+                break;
+
+            default:
                 break;
         }
 
