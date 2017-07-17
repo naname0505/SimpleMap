@@ -699,7 +699,7 @@ public class MainActivity extends Activity implements
 
         public void tabelog(String LAT, String LONG) {
             // アクセスキー
-            String acckey = "412ef37422f2ca18584801e4d25ce0a3";
+            String acckey = "replace your acckey from GURUNAVI site!!";
             // 緯度
             String lat = LAT;
             // 経度
